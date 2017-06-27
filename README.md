@@ -1,2 +1,2 @@
-# jkanban
-Javascript plugin for Kanban boards
+# jKanban
+>Javascript plugin for Kanban boards
