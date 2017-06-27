@@ -1,7 +1,7 @@
 {
-  "name": "jkanban",
+  "name": "jKanban",
   "version": "0.0.1",
-  "description": "Kanban javascript plugin",
+  "description": "Javascript plugin for Kanban boards",
   "main": "jkanban.js",
   "scripts": {
     "build"   : "npm run scripts && npm run styles",
@@ -9,13 +9,21 @@
     "styles"   : "npm-css ./jkanban.css > dist/jkanban.css && cleancss dist/jkanban.css -o dist/jkanban.min.css",
     "test"    : "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ashleygwilliams/my_package.git"
+  },
+  "homepage": "http://www.riccardotartaglia.it/jkanban",
   "keywords": [
     "kanban",
+    "js",
+    "drag",
+    "todo list",
     "javascript",
     "plugin"
   ],
   "author": "Riccardo Tartaglia",
-  "license": "ISC",
+  "license": "Apache 2.0",
   "dependencies": {
     "dragula": "^3.7.2"
   },
