@@ -1,0 +1,28 @@
+{
+  "name": "jkanban",
+  "version": "0.0.1",
+  "description": "Kanban javascript plugin",
+  "main": "jkanban.js",
+  "scripts": {
+    "build"   : "npm run scripts && npm run styles",
+    "scripts"  : "browserify ./jkanban.js -o dist/jkanban.js && uglifyjs -m -c -o dist/jkanban.min.js dist/jkanban.js",
+    "styles"   : "npm-css ./jkanban.css > dist/jkanban.css && cleancss dist/jkanban.css -o dist/jkanban.min.css",
+    "test"    : "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kanban",
+    "javascript",
+    "plugin"
+  ],
+  "author": "Riccardo Tartaglia",
+  "license": "ISC",
+  "dependencies": {
+    "dragula": "^3.7.2"
+  },
+  "devDependencies": {
+    "browserify": "11.0.0",
+    "npm-css": "0.2.3",
+    "uglify-js": "2.4.24",
+    "clean-css": "3.3.6"
+  }
+}
