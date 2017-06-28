@@ -28,7 +28,7 @@ in your page and you are done.
 #### Empty Kanban
 This snippet create an empty Kanban Board
 
-```javascript
+```
 <div id="myKanban"></div>
 
 <script>
@@ -38,7 +38,7 @@ This snippet create an empty Kanban Board
 #### Kanban with default board
 For define board to our kanban, you can use the option `boards` when you init the object.
 
-```javascript
+```
 <div id="myKanban"></div>
 
 <script>
