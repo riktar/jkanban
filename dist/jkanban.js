@@ -2,25 +2,29 @@
 var dragula = require('dragula');
 
 (function(){
-    this.Kanban = function () {
 
+    this.Kanban = function () {
         var self = this;
         this.element = '';
         this.container = '';
         this.boardContainer = [];
+        this.boards = [];
         this.dragula = dragula;
         this.drake = '';
         this.drakeBoard = '';
+
 
         defaults = {
             element : '',
             gutter : '15px',
             widthBoard : '250px',
             responsive : '700',
-            drag : function (el, source) {},
-            dragend : function (el) {},
+            dragEl : function (el, source) {},
+            dragendEl : function (el) {},
+            dragBoard : function (el, source) {},
+            dragendBoard : function (el) {},
             click: function(el) {}
-        }
+        };
 
         if (arguments[0] && typeof arguments[0] === "object") {
             this.options = __extendDefaults(defaults, arguments[0]);
@@ -43,10 +47,16 @@ var dragula = require('dragula');
                 })
                     .on('drag', function (el, source) {
                         el.classList.add('is-moving');
+                        self.options.dragBoard(el, source);
+                        if(typeof(el.dragfn) === 'function')
+                            el.dragfn(el, source);
                     })
                     //Drag End
                     .on('dragend', function (el) {
                         el.classList.remove('is-moving');
+                        self.options.dragendBoard(el);
+                        if(typeof(el.dragendfn) === 'function')
+                            el.dragendfn(el);
                     });
 
                 self.drake = self.dragula(self.boardContainer, function () {
@@ -55,15 +65,18 @@ var dragula = require('dragula');
                 //Drag
                     .on('drag', function (el, source) {
                         el.classList.add('is-moving');
-                        self.options.drag(el, source);
+                        self.options.dragEl(el, source);
+                        if(typeof(el.dragfn) === 'function')
+                            el.dragfn(el, source);
                     })
                     //Drag End
                     .on('dragend', function (el) {
                         el.classList.remove('is-moving');
-                        self.options.dragend(el);
+                        self.options.dragendEl(el);
+                        if(typeof(el.dragendfn) === 'function')
+                            el.dragendfn(el);
                     })
             }
-            return self;
         };
 
         this.addElement = function(boardID, element){
@@ -110,7 +123,12 @@ var dragula = require('dragula');
                     var itemKanban = board.item[itemkey];
                     var nodeItem = document.createElement('div');
                     nodeItem.classList.add('kanban-item');
+                    nodeItem.dataset.eid = itemKanban.id;
                     nodeItem.innerHTML = itemKanban.title;
+                    //add function
+                    nodeItem.clickfn = itemKanban.click;
+                    nodeItem.dragfn = itemKanban.drag;
+                    nodeItem.dragendfn = itemKanban.dragend;
                     //add click handler of item
                     __onclickHandler(nodeItem);
                     contentBoard.appendChild(nodeItem);
@@ -124,11 +142,31 @@ var dragula = require('dragula');
                 //board add
                 self.container.appendChild(boardNode);
             }
+            return self;
         }
 
-        this.removeBoard = function (boardID){
-            var board = self.element.querySelector('[data-id="'+boardID+'"]');
-            self.container.removeChild(board);
+        this.findElement = function(id){
+            var el = self.element.querySelector('[data-eid="'+id+'"]');
+            return el;
+        }
+
+        this.getBoardElements = function(id){
+            var board = self.element.querySelector('[data-id="'+id+'"] .kanban-drag');
+            return(board.childNodes);
+        }
+
+        this.removeElement = function(el){
+            if(typeof(el) === 'string' )
+                el = self.element.querySelector('[data-eid="'+el+'"]');
+            el.remove();
+            return self;
+        };
+
+        this.removeBoard = function (board){
+            if(typeof(board) === 'string' )
+                board = self.element.querySelector('[data-id="'+board+'"]');
+            board.remove();
+            return self;
         }
 
         //PRIVATE FUNCTION
@@ -154,10 +192,12 @@ var dragula = require('dragula');
             self.element.appendChild(self.container);
         };
 
-        function __onclickHandler(nodeItem){
+        function __onclickHandler(nodeItem, clickfn){
             nodeItem.addEventListener('click', function(e){
                 e.preventDefault;
                 self.options.click(this);
+                if(typeof(this.clickfn) === 'function')
+                    this.clickfn(this);
             });
         }
 

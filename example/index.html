@@ -23,7 +23,8 @@
     <div id="myKanban"></div>
     <button id="addDefault">Add "Default" board</button><br>
     <button id="addToDo">Add element in "To Do" Board</button><br>
-    <button id="removeBoard">Remove "Done" Board</button>
+    <button id="removeBoard">Remove "Done" Board</button><br>
+    <button id="removeElement">Remove "My Task Test"</button>
 
 
 <script src="../dist/jkanban.min.js"></script>
@@ -32,7 +33,7 @@
         element : '#myKanban',
         gutter  : '10px',
         click : function(el){
-            alert(el.innerHTML);
+            console.log(el);
         },
         boards  :[
             {
@@ -41,7 +42,17 @@
                 'class' : 'info',
                 'item'  : [
                     {
+                        'id':'_test_delete',
                         'title':'My Task Test',
+                        'click' : function (el) {
+                            alert('click');
+                        },
+                        'drag' : function (el, source) {
+                            alert('drag');
+                        },
+                        'dragend' : function (el) {
+                            alert('dragend');
+                        }
                     },
                     {
                         'title':'Buy Milk',
@@ -112,6 +123,16 @@
     removeBoard.addEventListener('click',function(){
         KanbanTest.removeBoard('_done');
     });
+
+    var removeElement = document.getElementById('removeElement');
+    removeElement.addEventListener('click',function(){
+        KanbanTest.removeElement('_test_delete');
+    });
+
+    var allEle = KanbanTest.getBoardElements('_todo');
+    allEle.forEach(function(item, index){
+        console.log(item);
+    })
 </script>
 </body>
 </html>
