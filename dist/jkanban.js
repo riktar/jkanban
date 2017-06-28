@@ -3,7 +3,7 @@ var dragula = require('dragula');
 
 (function(){
 
-    this.Kanban = function () {
+    this.jKanban = function () {
         var self = this;
         this.element = '';
         this.container = '';
