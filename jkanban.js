@@ -83,6 +83,10 @@ var dragula = require('dragula');
             var nodeItem = document.createElement('div');
             nodeItem.classList.add('kanban-item');
             nodeItem.innerHTML = element.title;
+            //add function
+            nodeItem.clickfn = element.click;
+            nodeItem.dragfn = element.drag;
+            nodeItem.dragendfn = element.dragend;
             __onclickHandler(nodeItem);
             board.appendChild(nodeItem);
             return self;
