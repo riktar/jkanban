@@ -38,51 +38,51 @@
         },
         boards  :[
             {
-                'id' : '_todo',
-                'title'  : 'To Do',
-                'class' : 'info',
-                'item'  : [
+                "id" : "_todo",
+                "title"  : "To Do",
+                "class" : "info",
+                "item"  : [
                     {
-                        'id':'_test_delete',
-                        'title':'My Task Test',
-                        'click' : function (el) {
-                            alert('click');
+                        "id":"_test_delete",
+                        "title":"My Task Test",
+                        "click" : function (el) {
+                            alert("click");
                         },
-                        'drag' : function (el, source) {
-                            alert('drag');
+                        "drag" : function (el, source) {
+                            alert("drag");
                         },
-                        'dragend' : function (el) {
-                            alert('dragend');
+                        "dragend" : function (el) {
+                            alert("dragend");
                         }
                     },
                     {
-                        'title':'Buy Milk',
+                        "title":"Buy Milk",
                     }
                 ]
             },
             {
-                'id' : '_working',
-                'title'  : 'Working',
-                'class' : 'warning',
-                'item'  : [
+                "id" : "_working",
+                "title"  : "Working",
+                "class" : "warning",
+                "item"  : [
                     {
-                        'title':'Do Something!',
+                        "title":"Do Something!",
                     },
                     {
-                        'title':'Run?',
+                        "title":"Run?",
                     }
                 ]
             },
             {
-                'id' : '_done',
-                'title'  : 'Done',
-                'class' : 'success',
-                'item'  : [
+                "id" : "_done",
+                "title"  : "Done",
+                "class" : "success",
+                "item"  : [
                     {
-                        'title':'All right',
+                        "title":"All right",
                     },
                     {
-                        'title':'Ok!',
+                        "title":"Ok!",
                     }
                 ]
             }
@@ -92,9 +92,9 @@
     var toDoButton = document.getElementById('addToDo');
     toDoButton.addEventListener('click',function(){
         KanbanTest.addElement(
-            '_todo',
+            "_todo",
             {
-                'title':'Test Add',
+                "title":"Test Add",
             }
         );
     });
@@ -103,17 +103,17 @@
     addBoardDefault.addEventListener('click', function () {
         KanbanTest.addBoards(
             [{
-                'id' : '_default',
-                'title'  : 'Kanban Default',
-                'item'  : [
+                "id" : "_default",
+                "title"  : "Kanban Default",
+                "item"  : [
                     {
-                        'title':'Default Item',
+                        "title":"Default Item",
                     },
                     {
-                        'title':'Default Item 2',
+                        "title":"Default Item 2",
                     },
                     {
-                        'title':'Default Item 3',
+                        "title":"Default Item 3",
                     }
                 ]
             }]

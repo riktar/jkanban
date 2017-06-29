@@ -46,23 +46,23 @@ Now take a look to the `boards` object
 ```js
 [
     {
-        'id'    : 'board-id-1',             // id of the board
-        'title' : 'Board Title',            // title of the board
-        'class' : '',                       // css class to add at the title
-        'item'  : [                         // item of this board
+        "id"    : "board-id-1",             // id of the board
+        "title" : "Board Title",            // title of the board
+        "class" : "",                       // css class to add at the title
+        "item"  : [                         // item of this board
             {
-                'id'    : 'item-id-1',      // id of the item
-                'title' : 'Item 1'          // title of the item
+                "id"    : "item-id-1",      // id of the item
+                "title" : "Item 1"          // title of the item
             },
             {
-                'id'    : 'item-id-2',
-                'title' : 'Item 2'
+                "id"    : "item-id-2",
+                "title" : "Item 2"
             }
         ]
     },
     {
-        'id'    : 'board-id-2',               
-        'title' : 'Board Title 2',
+        "id"    : "board-id-2",               
+        "title" : "Board Title 2",
     }
 ]
 ```
