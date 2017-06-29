@@ -62,7 +62,7 @@ Now take a look to the `boards` object
     },
     {
         "id"    : "board-id-2",               
-        "title" : "Board Title 2",
+        "title" : "Board Title 2"
     }
 ]
 ```
