@@ -80,6 +80,9 @@ Method Name           | Arguments                        | Description
 `removeElement`       | `id`                             | Remove a board's element by id
 `removeBoard`         | `id`                             | Remove a board by id
 
+## Example
+Clone the repo and look in the `example` folder
+
 ## Thanks
 jKanban use [dragula](https://github.com/bevacqua/dragula) for drag&drop
 
