@@ -46,7 +46,7 @@ Now take a look to the `boards` object
 ```js
 [
     {
-        'id'    : 'board-id-2',             // id of the board
+        'id'    : 'board-id-1',             // id of the board
         'title' : 'Board Title',            // title of the board
         'class' : '',                       // css class to add at the title
         'item'  : [                         // item of this board
