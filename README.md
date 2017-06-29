@@ -43,7 +43,7 @@ var kanban = new jKanban({
 ```
 
 Now take a look to the `boards` object
-```json
+```js
 [
     {
         "id"    : "board-id-1",             // id of the board
