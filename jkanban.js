@@ -7,7 +7,6 @@ var dragula = require('dragula');
         this.element = '';
         this.container = '';
         this.boardContainer = [];
-        this.boards = [];
         this.dragula = dragula;
         this.drake = '';
         this.drakeBoard = '';
@@ -18,6 +17,7 @@ var dragula = require('dragula');
             gutter : '15px',
             widthBoard : '250px',
             responsive : '700',
+            boards : [],
             dragEl : function (el, source) {},
             dragendEl : function (el) {},
             dragBoard : function (el, source) {},
