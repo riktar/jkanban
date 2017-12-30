@@ -97,6 +97,12 @@ var dragula = require('dragula');
             return self;
         };
 
+        this.addForm = function(boardID, formItem){
+            var board = self.element.querySelector('[data-id="'+boardID+'"] .kanban-drag');
+            board.appendChild(formItem);
+            return self;
+        };
+
         this.addBoards = function(boards){
             var boardWidth = self.options.widthBoard;
             var addButton = self.options.addItemButton;
