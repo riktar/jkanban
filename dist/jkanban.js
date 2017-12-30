@@ -20,11 +20,14 @@ var dragula = require('dragula');
             widthBoard : '250px',
             responsive : '700',
             boards : [],
+            addItemButton : false,
+            buttonContent : '+',
             dragEl : function (el, source) {},
             dragendEl : function (el) {},
             dragBoard : function (el, source) {},
             dragendBoard : function (el) {},
-            click: function(el) {}
+            click: function(el) {},
+            buttonClick: function(el, boardkey) {}
         };
 
         if (arguments[0] && typeof arguments[0] === "object") {
@@ -123,7 +126,13 @@ var dragula = require('dragula');
                 headerBoard.innerHTML = '<div class="kanban-title-board">'+board.title+'</div>';
                 // if add button is true, add button to the board 
                 if(addButton){
-                    headerBoard.innerHTML += '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>';
+                    var btn = document.createElement("BUTTON");
+                    var t = document.createTextNode(buttonContent);
+                    btn.setAttribute("class", "kanban-title-button btn btn-default btn-xs" );
+                    btn.appendChild(t);
+                    //var buttonHtml = '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>'
+                    headerBoard.appendChild(btn);
+                    __onButtonClickHandler(btn, boardkey);
                 }
                 //content board
                 var contentBoard = document.createElement('main');
@@ -181,6 +190,12 @@ var dragula = require('dragula');
             return self;
         }
 
+        // board button on click function 
+        this.onButtonClick = function(el){
+
+        }
+
+
         //PRIVATE FUNCTION
         function __extendDefaults(source, properties) {
             var property;
@@ -212,6 +227,16 @@ var dragula = require('dragula');
                     this.clickfn(this);
             });
         }
+
+        function __onButtonClickHandler(nodeItem, boardkey){
+            nodeItem.addEventListener('click', function(e){
+                e.preventDefault;
+                self.options.buttonClick(this, boardkey);
+                // if(typeof(this.clickfn) === 'function')
+                //     this.clickfn(this);
+            });
+        }
+
 
         //init plugin
         this.init();
