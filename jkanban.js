@@ -26,7 +26,7 @@ var dragula = require('dragula');
             dragBoard : function (el, source) {},
             dragendBoard : function (el) {},
             click: function(el) {},
-            buttonClick: function(el, boardkey) {}
+            buttonClick: function(el, boardId) {}
         };
 
         if (arguments[0] && typeof arguments[0] === "object") {
@@ -131,7 +131,7 @@ var dragula = require('dragula');
                     btn.appendChild(t);
                     //var buttonHtml = '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>'
                     headerBoard.appendChild(btn);
-                    __onButtonClickHandler(btn, boardkey);
+                    __onButtonClickHandler(btn, board.id);
                 }
                 //content board
                 var contentBoard = document.createElement('main');
@@ -227,10 +227,10 @@ var dragula = require('dragula');
             });
         }
 
-        function __onButtonClickHandler(nodeItem, boardkey){
+        function __onButtonClickHandler(nodeItem, boardId){
             nodeItem.addEventListener('click', function(e){
                 e.preventDefault;
-                self.options.buttonClick(this, boardkey);
+                self.options.buttonClick(this, boardId);
                 // if(typeof(this.clickfn) === 'function')
                 //     this.clickfn(this);
             });
