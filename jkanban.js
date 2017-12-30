@@ -10,7 +10,8 @@ var dragula = require('dragula');
         this.dragula = dragula;
         this.drake = '';
         this.drakeBoard = '';
-
+        this.addItemButton = false;
+        this.buttonContent ='+';
 
         defaults = {
             element : '',
@@ -94,6 +95,9 @@ var dragula = require('dragula');
 
         this.addBoards = function(boards){
             var boardWidth = self.options.widthBoard;
+            var addButton = self.options.addItemButton;
+            var buttonContent = self.options.buttonContent;
+
             //for on all the boards
             for (var boardkey in boards) {
                 // single board
@@ -116,6 +120,10 @@ var dragula = require('dragula');
                 var headerBoard = document.createElement('header');
                 headerBoard.classList.add('kanban-board-header', board.class);
                 headerBoard.innerHTML = '<div class="kanban-title-board">'+board.title+'</div>';
+                // if add button is true, add button to the board 
+                if(addButton){
+                    headerBoard.innerHTML += '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>';
+                }
                 //content board
                 var contentBoard = document.createElement('main');
                 contentBoard.classList.add('kanban-drag');

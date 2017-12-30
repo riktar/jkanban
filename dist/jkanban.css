@@ -25,7 +25,11 @@
     .kanban-board header .kanban-title-board {
       font-weight: 700;
       margin: 0;
-      padding: 0; }
+      padding: 0;
+      display: inline; }
+    .kanban-board header .kanban-title-button{
+      float: right;
+    }
   .kanban-board .kanban-drag {
     min-height: 200px;
     padding: 20px; }
