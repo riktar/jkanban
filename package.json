@@ -4,10 +4,10 @@
   "description": "Javascript plugin for Kanban boards",
   "main": "jkanban.js",
   "scripts": {
-    "build"   : "npm run scripts && npm run styles",
-    "scripts"  : "browserify ./jkanban.js -o dist/jkanban.js && uglifyjs -m -c -o dist/jkanban.min.js dist/jkanban.js",
-    "styles"   : "npm-css ./jkanban.css > dist/jkanban.css && cleancss dist/jkanban.css -o dist/jkanban.min.css",
-    "test"    : "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run scripts && npm run styles",
+    "scripts": "browserify ./jkanban.js -o dist/jkanban.js && uglifyjs -m -c -o dist/jkanban.min.js dist/jkanban.js",
+    "styles": "npm-css ./jkanban.css > dist/jkanban.css && cleancss dist/jkanban.css -o dist/jkanban.min.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

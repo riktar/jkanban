@@ -10,7 +10,8 @@ var dragula = require('dragula');
         this.dragula = dragula;
         this.drake = '';
         this.drakeBoard = '';
-
+        this.addItemButton = false;
+        this.buttonContent ='+';
 
         defaults = {
             element : '',
@@ -18,11 +19,14 @@ var dragula = require('dragula');
             widthBoard : '250px',
             responsive : '700',
             boards : [],
+            addItemButton : false,
+            buttonContent : '+',
             dragEl : function (el, source) {},
             dragendEl : function (el) {},
             dragBoard : function (el, source) {},
             dragendBoard : function (el) {},
-            click: function(el) {}
+            click: function(el) {},
+            buttonClick: function(el, boardId) {}
         };
 
         if (arguments[0] && typeof arguments[0] === "object") {
@@ -94,6 +98,9 @@ var dragula = require('dragula');
 
         this.addBoards = function(boards){
             var boardWidth = self.options.widthBoard;
+            var addButton = self.options.addItemButton;
+            var buttonContent = self.options.buttonContent;
+
             //for on all the boards
             for (var boardkey in boards) {
                 // single board
@@ -116,6 +123,16 @@ var dragula = require('dragula');
                 var headerBoard = document.createElement('header');
                 headerBoard.classList.add('kanban-board-header', board.class);
                 headerBoard.innerHTML = '<div class="kanban-title-board">'+board.title+'</div>';
+                // if add button is true, add button to the board 
+                if(addButton){
+                    var btn = document.createElement("BUTTON");
+                    var t = document.createTextNode(buttonContent);
+                    btn.setAttribute("class", "kanban-title-button btn btn-default btn-xs" );
+                    btn.appendChild(t);
+                    //var buttonHtml = '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>'
+                    headerBoard.appendChild(btn);
+                    __onButtonClickHandler(btn, board.id);
+                }
                 //content board
                 var contentBoard = document.createElement('main');
                 contentBoard.classList.add('kanban-drag');
@@ -172,6 +189,12 @@ var dragula = require('dragula');
             return self;
         }
 
+        // board button on click function 
+        this.onButtonClick = function(el){
+
+        }
+
+
         //PRIVATE FUNCTION
         function __extendDefaults(source, properties) {
             var property;
@@ -203,6 +226,16 @@ var dragula = require('dragula');
                     this.clickfn(this);
             });
         }
+
+        function __onButtonClickHandler(nodeItem, boardId){
+            nodeItem.addEventListener('click', function(e){
+                e.preventDefault;
+                self.options.buttonClick(this, boardId);
+                // if(typeof(this.clickfn) === 'function')
+                //     this.clickfn(this);
+            });
+        }
+
 
         //init plugin
         this.init();
