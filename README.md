@@ -77,6 +77,7 @@ jKanban provides the easiest possible API to make your boards awesome!
 Method Name           | Arguments                        | Description
 ----------------------|----------------------------------|------------------------------------------------------------------------------------------------------------------------------
 `addElement`          | `boardID, element`               | Add `element` in the board with ID `boardID`, `element` is the standard format 
+`addForm`             | `boardID, formItem`              | Add `formItem` as html element into the board with ID `boardID`
 `addBoards`           | `boards`                         | Add one or more boards in the kanban, `boards` are in the standard format
 `findElement`         | `id`                             | Find board's item by `id`
 `getBoardElements`    | `id`                             | Get all item of a board
