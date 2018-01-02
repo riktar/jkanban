@@ -36,6 +36,15 @@
         click : function(el){
             console.log(el);
         },
+        buttonClick: function(el, boardId){
+            console.log(el);
+            console.log(boardId);
+            KanbanTest.addElement(boardId, {
+                "title":"Test Add Item",
+            }
+        );
+        },
+        addItemButton: true,
         boards  :[
             {
                 "id" : "_todo",
