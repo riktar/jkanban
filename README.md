@@ -2,7 +2,7 @@
 
 >Javascript plugin for Kanban boards
 
-####[Support this plugin!](https://donorbox.org/jkanban)
+### [Support this plugin!](https://donorbox.org/jkanban)
 
 jKanban allow you to create and manage Kanban Board in your project!
 
