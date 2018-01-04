@@ -162,10 +162,13 @@ var dragula = require('dragula');
             var addButton = self.options.addItemButton;
             var buttonContent = self.options.buttonContent;
 
+
             //for on all the boards
             for (var boardkey in boards) {
                 // single board
                 var board = boards[boardkey];
+                self.options.boards.push(board);
+
                 //add width to container
                 if (self.container.style.width === '') {
                     self.container.style.width = parseInt(boardWidth) + (parseInt(self.options.gutter) * 2) + 'px';
