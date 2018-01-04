@@ -30,18 +30,19 @@ Init jKanban is a piece of cake!
 Here's an **overview of the default values**.
 ```js
 var kanban = new jKanban({
-    element         : '',                           // selector of the kanban container
-    gutter          : '15px',                       // gutter of the board
-    widthBoard      : '250px',                      // width of the board
-    boards          : [],                           // json of boards
-    addItemButton   : false,                        // add a button to board for easy item creation
-    buttonContent   : '+',                          // text or html content of the board button
-    click           : function (el) {},             // callback when any board's item are clicked
-    dragEl          : function (el, source) {},     // callback when any board's item are dragged
-    dragendEl       : function (el) {},             // callback when any board's item stop drag
-    dragBoard       : function (el, source) {},     // callback when any board stop drag
-    dragendBoard    : function (el) {},             // callback when any board stop drag
-    buttonClick     : function(el, boardId) {}      // callback when the board's button is clicked
+    element         : '',                                           // selector of the kanban container
+    gutter          : '15px',                                       // gutter of the board
+    widthBoard      : '250px',                                      // width of the board
+    boards          : [],                                           // json of boards
+    addItemButton   : false,                                        // add a button to board for easy item creation
+    buttonContent   : '+',                                          // text or html content of the board button
+    click           : function (el) {},                             // callback when any board's item are clicked
+    dragEl          : function (el, source) {},                     // callback when any board's item are dragged
+    dragendEl       : function (el) {},                             // callback when any board's item stop drag
+    dropEl          : function (el, target, source, sibling) {},    // callback when any board's item drop in a board
+    dragBoard       : function (el, source) {},                     // callback when any board stop drag
+    dragendBoard    : function (el) {},                             // callback when any board stop drag
+    buttonClick     : function(el, boardId) {}                      // callback when the board's button is clicked
 })
 ```
 
@@ -49,13 +50,14 @@ Now take a look to the `boards` object
 ```js
 [
     {
-        "id"    : "board-id-1",             // id of the board
-        "title" : "Board Title",            // title of the board
-        "class" : "",                       // css class to add at the title
-        "item"  : [                         // item of this board
+        "id"    : "board-id-1",               // id of the board
+        "title" : "Board Title",              // title of the board
+        "class" : "",                         // css class to add at the title
+        "dragTo": ['another-board-id',...],   // array of ids of boards where items can be dropped (default: [])    
+        "item"  : [                           // item of this board
             {
-                "id"    : "item-id-1",      // id of the item
-                "title" : "Item 1"          // title of the item
+                "id"    : "item-id-1",        // id of the item
+                "title" : "Item 1"            // title of the item
             },
             {
                 "id"    : "item-id-2",
@@ -80,6 +82,7 @@ Method Name           | Arguments                        | Description
 `addForm`             | `boardID, formItem`              | Add `formItem` as html element into the board with ID `boardID`
 `addBoards`           | `boards`                         | Add one or more boards in the kanban, `boards` are in the standard format
 `findElement`         | `id`                             | Find board's item by `id`
+`findBoard`           | `id`                             | Find board by `id`
 `getBoardElements`    | `id`                             | Get all item of a board
 `removeElement`       | `id`                             | Remove a board's element by id
 `removeBoard`         | `id`                             | Remove a board by id

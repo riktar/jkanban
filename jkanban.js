@@ -1,6 +1,15 @@
+/**
+ * jKanban
+ * Vanilla Javascript plugin for manage kanban boards
+ *
+ * @site: http://www.riccardotartaglia.it/jkanban/
+ * @author: Riccardo Tartaglia
+ */
+
+//Require dragula
 var dragula = require('dragula');
 
-(function(){
+(function () {
 
     this.jKanban = function () {
         var self = this;
@@ -11,22 +20,32 @@ var dragula = require('dragula');
         this.drake = '';
         this.drakeBoard = '';
         this.addItemButton = false;
-        this.buttonContent ='+';
+        this.buttonContent = '+';
 
         defaults = {
-            element : '',
-            gutter : '15px',
-            widthBoard : '250px',
-            responsive : '700',
-            boards : [],
-            addItemButton : false,
-            buttonContent : '+',
-            dragEl : function (el, source) {},
-            dragendEl : function (el) {},
-            dragBoard : function (el, source) {},
-            dragendBoard : function (el) {},
-            click: function(el) {},
-            buttonClick: function(el, boardId) {}
+            element: '',
+            gutter: '15px',
+            widthBoard: '250px',
+            responsive: '700',
+            boards: [],
+            addItemButton: false,
+            buttonContent: '+',
+            dragEl: function (el, source) {
+            },
+            dragendEl: function (el) {
+            },
+            dropEl: function (el, target, source, sibling) {
+            },
+            dragBoard: function (el, source) {
+            },
+            dragendBoard: function (el) {
+            },
+            dropBoard: function (el, target, source, sibling) {
+            },
+            click: function (el) {
+            },
+            buttonClick: function (el, boardId) {
+            }
         };
 
         if (arguments[0] && typeof arguments[0] === "object") {
@@ -37,7 +56,9 @@ var dragula = require('dragula');
             //set initial boards
             __setBoard();
             //set drag with dragula
-            if(window.innerWidth > self.options.responsive) {
+            if (window.innerWidth > self.options.responsive) {
+
+                //Init Drag Board
                 self.drakeBoard = self.dragula([self.container], {
                     moves: function (el, source, handle, sibling) {
                         return (handle.classList.contains('kanban-board-header') || handle.classList.contains('kanban-title-board'));
@@ -51,39 +72,72 @@ var dragula = require('dragula');
                     .on('drag', function (el, source) {
                         el.classList.add('is-moving');
                         self.options.dragBoard(el, source);
-                        if(typeof(el.dragfn) === 'function')
+                        if (typeof(el.dragfn) === 'function')
                             el.dragfn(el, source);
                     })
-                    //Drag End
                     .on('dragend', function (el) {
                         el.classList.remove('is-moving');
                         self.options.dragendBoard(el);
-                        if(typeof(el.dragendfn) === 'function')
+                        if (typeof(el.dragendfn) === 'function')
                             el.dragendfn(el);
+                    })
+                    .on('drop', function (el, target, source, sibling) {
+                        el.classList.remove('is-moving');
+                        self.options.dropBoard(el, target, source, sibling);
+                        if (typeof(el.dropfn) === 'function')
+                            el.dropfn(el, target, source, sibling);
                     });
 
+                //Init Drag Item
                 self.drake = self.dragula(self.boardContainer, function () {
                     revertOnSpill: true
                 })
-                //Drag
                     .on('drag', function (el, source) {
                         el.classList.add('is-moving');
+                        var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
+                        if (boardJSON.dragTo !== undefined) {
+                            self.options.boards.map(function (board) {
+                                if (boardJSON.dragTo.indexOf(board.id) === -1 && board.id !== source.parentNode.dataset.id) {
+                                    self.findBoard(board.id).classList.add('disabled-board');
+                                }
+                            })
+                        }
+
                         self.options.dragEl(el, source);
-                        if(typeof(el.dragfn) === 'function')
+                        if (el !== null && typeof(el.dragfn) === 'function')
                             el.dragfn(el, source);
                     })
-                    //Drag End
                     .on('dragend', function (el) {
-                        el.classList.remove('is-moving');
                         self.options.dragendEl(el);
-                        if(typeof(el.dragendfn) === 'function')
+                        if (el !== null && typeof(el.dragendfn) === 'function')
                             el.dragendfn(el);
+                    })
+                    .on('drop', function (el, target, source, sibling) {
+
+                        var allB = document.querySelectorAll('.kanban-board');
+                        if (allB.length > 0 && allB !== undefined) {
+                            for (var i = 0; i < allB.length; i++) {
+                                allB[i].classList.remove('disabled-board');
+                            }
+                        }
+                        var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
+                        if (boardJSON.dragTo !== undefined) {
+                            if (boardJSON.dragTo.indexOf(target.parentNode.dataset.id) === -1 && target.parentNode.dataset.id !== source.parentNode.dataset.id) {
+                                self.drake.cancel(true)
+                            }
+                        }
+                        if (el !== null) {
+                            self.options.dropEl(el, target, source, sibling);
+                            el.classList.remove('is-moving');
+                            if (typeof(el.dropfn) === 'function')
+                                el.dropfn(el, target, source, sibling);
+                        }
                     })
             }
         };
 
-        this.addElement = function(boardID, element){
-            var board = self.element.querySelector('[data-id="'+boardID+'"] .kanban-drag');
+        this.addElement = function (boardID, element) {
+            var board = self.element.querySelector('[data-id="' + boardID + '"] .kanban-drag');
             var nodeItem = document.createElement('div');
             nodeItem.classList.add('kanban-item');
             nodeItem.innerHTML = element.title;
@@ -91,18 +145,19 @@ var dragula = require('dragula');
             nodeItem.clickfn = element.click;
             nodeItem.dragfn = element.drag;
             nodeItem.dragendfn = element.dragend;
+            nodeItem.dropfn = element.drop;
             __onclickHandler(nodeItem);
             board.appendChild(nodeItem);
             return self;
         };
 
-        this.addForm = function(boardID, formItem){
-            var board = self.element.querySelector('[data-id="'+boardID+'"] .kanban-drag');
+        this.addForm = function (boardID, formItem) {
+            var board = self.element.querySelector('[data-id="' + boardID + '"] .kanban-drag');
             board.appendChild(formItem);
             return self;
         };
 
-        this.addBoards = function(boards){
+        this.addBoards = function (boards) {
             var boardWidth = self.options.widthBoard;
             var addButton = self.options.addItemButton;
             var buttonContent = self.options.buttonContent;
@@ -110,7 +165,7 @@ var dragula = require('dragula');
             //for on all the boards
             for (var boardkey in boards) {
                 // single board
-                var board =  boards[boardkey];
+                var board = boards[boardkey];
                 //add width to container
                 if (self.container.style.width === '') {
                     self.container.style.width = parseInt(boardWidth) + (parseInt(self.options.gutter) * 2) + 'px';
@@ -128,12 +183,12 @@ var dragula = require('dragula');
                 // header board
                 var headerBoard = document.createElement('header');
                 headerBoard.classList.add('kanban-board-header', board.class);
-                headerBoard.innerHTML = '<div class="kanban-title-board">'+board.title+'</div>';
+                headerBoard.innerHTML = '<div class="kanban-title-board">' + board.title + '</div>';
                 // if add button is true, add button to the board 
-                if(addButton){
+                if (addButton) {
                     var btn = document.createElement("BUTTON");
                     var t = document.createTextNode(buttonContent);
-                    btn.setAttribute("class", "kanban-title-button btn btn-default btn-xs" );
+                    btn.setAttribute("class", "kanban-title-button btn btn-default btn-xs");
                     btn.appendChild(t);
                     //var buttonHtml = '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>'
                     headerBoard.appendChild(btn);
@@ -144,7 +199,7 @@ var dragula = require('dragula');
                 contentBoard.classList.add('kanban-drag');
                 //add drag to array for dragula
                 self.boardContainer.push(contentBoard);
-                for(var itemkey in board.item){
+                for (var itemkey in board.item) {
                     //create item
                     var itemKanban = board.item[itemkey];
                     var nodeItem = document.createElement('div');
@@ -155,6 +210,7 @@ var dragula = require('dragula');
                     nodeItem.clickfn = itemKanban.click;
                     nodeItem.dragfn = itemKanban.drag;
                     nodeItem.dragendfn = itemKanban.dragend;
+                    nodeItem.dropfn = itemKanban.drop;
                     //add click handler of item
                     __onclickHandler(nodeItem);
                     contentBoard.appendChild(nodeItem);
@@ -171,32 +227,37 @@ var dragula = require('dragula');
             return self;
         }
 
-        this.findElement = function(id){
-            var el = self.element.querySelector('[data-eid="'+id+'"]');
+        this.findBoard = function (id) {
+            var el = self.element.querySelector('[data-id="' + id + '"]');
             return el;
         }
 
-        this.getBoardElements = function(id){
-            var board = self.element.querySelector('[data-id="'+id+'"] .kanban-drag');
-            return(board.childNodes);
+        this.findElement = function (id) {
+            var el = self.element.querySelector('[data-eid="' + id + '"]');
+            return el;
         }
 
-        this.removeElement = function(el){
-            if(typeof(el) === 'string' )
-                el = self.element.querySelector('[data-eid="'+el+'"]');
+        this.getBoardElements = function (id) {
+            var board = self.element.querySelector('[data-id="' + id + '"] .kanban-drag');
+            return (board.childNodes);
+        }
+
+        this.removeElement = function (el) {
+            if (typeof(el) === 'string')
+                el = self.element.querySelector('[data-eid="' + el + '"]');
             el.remove();
             return self;
         };
 
-        this.removeBoard = function (board){
-            if(typeof(board) === 'string' )
-                board = self.element.querySelector('[data-id="'+board+'"]');
+        this.removeBoard = function (board) {
+            if (typeof(board) === 'string')
+                board = self.element.querySelector('[data-id="' + board + '"]');
             board.remove();
             return self;
         }
 
         // board button on click function 
-        this.onButtonClick = function(el){
+        this.onButtonClick = function (el) {
 
         }
 
@@ -212,10 +273,10 @@ var dragula = require('dragula');
             return source;
         }
 
-        function __setBoard(){
+        function __setBoard() {
             self.element = document.querySelector(self.options.element);
             //create container
-            var boardContainer =  document.createElement('div');
+            var boardContainer = document.createElement('div');
             boardContainer.classList.add('kanban-container');
             self.container = boardContainer;
             //add boards
@@ -224,22 +285,32 @@ var dragula = require('dragula');
             self.element.appendChild(self.container);
         };
 
-        function __onclickHandler(nodeItem, clickfn){
-            nodeItem.addEventListener('click', function(e){
+        function __onclickHandler(nodeItem, clickfn) {
+            nodeItem.addEventListener('click', function (e) {
                 e.preventDefault;
                 self.options.click(this);
-                if(typeof(this.clickfn) === 'function')
+                if (typeof(this.clickfn) === 'function')
                     this.clickfn(this);
             });
         }
 
-        function __onButtonClickHandler(nodeItem, boardId){
-            nodeItem.addEventListener('click', function(e){
+        function __onButtonClickHandler(nodeItem, boardId) {
+            nodeItem.addEventListener('click', function (e) {
                 e.preventDefault;
                 self.options.buttonClick(this, boardId);
                 // if(typeof(this.clickfn) === 'function')
                 //     this.clickfn(this);
             });
+        }
+
+        function __findBoardJSON(id) {
+            var el = []
+            self.options.boards.map(function (board) {
+                if (board.id === id) {
+                    return el.push(board)
+                }
+            })
+            return el[0]
         }
 
 
