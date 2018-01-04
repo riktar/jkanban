@@ -29,8 +29,8 @@
   },
   "devDependencies": {
     "browserify": "11.0.0",
+    "clean-css": "^3.3.6",
     "npm-css": "0.2.3",
-    "uglify-js": "2.4.24",
-    "clean-css": "3.3.6"
+    "uglify-js": "^3.3.4"
   }
 }

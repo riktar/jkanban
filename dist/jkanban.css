@@ -21,6 +21,10 @@
     transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+.kanban-board.disabled-board{
+    opacity: .3;
+}
+
 .kanban-board.is-moving.gu-mirror {
     transform: rotate(3deg);
 }
