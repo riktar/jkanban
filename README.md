@@ -1,6 +1,8 @@
+<img src="https://www.riccardotartaglia.it/jkanban/jkanban.png" width="80" style="position:relative; top:30px" />
+
 # jKanban
 
->Javascript plugin for Kanban boards
+> Javascript plugin for Kanban boards
 
 ### [Support this plugin!](https://donorbox.org/jkanban)
 
