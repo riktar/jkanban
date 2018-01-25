@@ -54,7 +54,7 @@ Now take a look to the `boards` object
     {
         "id"    : "board-id-1",               // id of the board
         "title" : "Board Title",              // title of the board
-        "class" : "",                         // css class to add at the title
+        "class" : "class1,class2,...",        // css classes to add at the title
         "dragTo": ['another-board-id',...],   // array of ids of boards where items can be dropped (default: [])    
         "item"  : [                           // item of this board
             {

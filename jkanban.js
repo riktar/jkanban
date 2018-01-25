@@ -185,9 +185,13 @@ var dragula = require('dragula');
                 boardNode.style.marginRight = self.options.gutter;
                 // header board
                 var headerBoard = document.createElement('header');
-                headerBoard.classList.add('kanban-board-header', board.class);
+                var allClasses = board.class.split(",");
+                headerBoard.classList.add('kanban-board-header');
+                allClasses.map(function(value){
+                    headerBoard.classList.add(value);
+                });
                 headerBoard.innerHTML = '<div class="kanban-title-board">' + board.title + '</div>';
-                // if add button is true, add button to the board 
+                // if add button is true, add button to the board
                 if (addButton) {
                     var btn = document.createElement("BUTTON");
                     var t = document.createTextNode(buttonContent);
@@ -259,7 +263,7 @@ var dragula = require('dragula');
             return self;
         }
 
-        // board button on click function 
+        // board button on click function
         this.onButtonClick = function (el) {
 
         }
