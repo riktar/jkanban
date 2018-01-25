@@ -21,13 +21,13 @@ var dragula = require('dragula');
         this.drakeBoard = '';
         this.addItemButton = false;
         this.buttonContent = '+';
-
         defaults = {
             element: '',
             gutter: '15px',
             widthBoard: '250px',
             responsive: '700',
             boards: [],
+            dragBoards: true,
             addItemButton: false,
             buttonContent: '+',
             dragEl: function (el, source) {
@@ -61,6 +61,7 @@ var dragula = require('dragula');
                 //Init Drag Board
                 self.drakeBoard = self.dragula([self.container], {
                     moves: function (el, source, handle, sibling) {
+                        if (!self.options.dragBoards) return false;
                         return (handle.classList.contains('kanban-board-header') || handle.classList.contains('kanban-title-board'));
                     },
                     accepts: function (el, target, source, sibling) {
@@ -185,9 +186,11 @@ var dragula = require('dragula');
                 boardNode.style.marginRight = self.options.gutter;
                 // header board
                 var headerBoard = document.createElement('header');
-                var allClasses = board.class.split(",");
+                if (board.class !== '' && board.class !== undefined)
+                    var allClasses = board.class.split(",");
+                else allClasses = [];
                 headerBoard.classList.add('kanban-board-header');
-                allClasses.map(function(value){
+                allClasses.map(function (value) {
                     headerBoard.classList.add(value);
                 });
                 headerBoard.innerHTML = '<div class="kanban-title-board">' + board.title + '</div>';

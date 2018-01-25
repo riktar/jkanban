@@ -36,6 +36,7 @@ var kanban = new jKanban({
     gutter          : '15px',                                       // gutter of the board
     widthBoard      : '250px',                                      // width of the board
     boards          : [],                                           // json of boards
+    dragBoards      : true,                                         // the boards are draggable, if false only item can be dragged
     addItemButton   : false,                                        // add a button to board for easy item creation
     buttonContent   : '+',                                          // text or html content of the board button
     click           : function (el) {},                             // callback when any board's item are clicked
