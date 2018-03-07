@@ -142,6 +142,9 @@ var dragula = require('dragula');
             var board = self.element.querySelector('[data-id="' + boardID + '"] .kanban-drag');
             var nodeItem = document.createElement('div');
             nodeItem.classList.add('kanban-item');
+            if (element.id) {
+              nodeItem.setAttribute('data-eid', element.id)
+            }
             nodeItem.innerHTML = element.title;
             //add function
             nodeItem.clickfn = element.click;
