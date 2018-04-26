@@ -35,6 +35,7 @@ var kanban = new jKanban({
     element         : '',                                           // selector of the kanban container
     gutter          : '15px',                                       // gutter of the board
     widthBoard      : '250px',                                      // width of the board
+    responsivePercentage: false,                                    // if it is true I use percentage in the width of the boards and it is not necessary gutter and widthBoard
     boards          : [],                                           // json of boards
     dragBoards      : true,                                         // the boards are draggable, if false only item can be dragged
     addItemButton   : false,                                        // add a button to board for easy item creation
