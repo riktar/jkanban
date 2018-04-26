@@ -198,7 +198,11 @@ var dragula = require('dragula');
                 boardNode.dataset.id = board.id;
                 boardNode.classList.add('kanban-board');
                 //set style
-                boardNode.style.width = boardWidth + '%';
+                if (self.options.responsivePercentage) {
+                    boardNode.style.width = boardWidth + '%';
+                } else {
+                    boardNode.style.width = boardWidth;
+                }
                 boardNode.style.marginLeft = self.options.gutter;
                 boardNode.style.marginRight = self.options.gutter;
                 // header board
