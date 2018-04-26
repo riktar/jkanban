@@ -27,6 +27,7 @@ var dragula = require('dragula');
             gutter: '15px',
             widthBoard: '250px',
             responsive: '700',
+            responsivePercentage: false,
             boards: [],
             dragBoards: true,
             addItemButton: false,
@@ -163,7 +164,17 @@ var dragula = require('dragula');
         };
 
         this.addBoards = function (boards) {
-            var boardWidth = self.options.widthBoard;
+            if (self.options.responsivePercentage) {
+                self.container.style.width = '100%';
+                self.options.gutter = '1%';
+                if (window.innerWidth > self.options.responsive) {
+                    var boardWidth = (100 - boards.length * 2) / boards.length;
+                } else {
+                    var boardWidth = 100 - (boards.length * 2);
+                }
+            } else {
+                var boardWidth = self.options.widthBoard;
+            }
             var addButton = self.options.addItemButton;
             var buttonContent = self.options.buttonContent;
 
@@ -174,18 +185,20 @@ var dragula = require('dragula');
                 var board = boards[boardkey];
                 self.options.boards.push(board);
 
-                //add width to container
-                if (self.container.style.width === '') {
-                    self.container.style.width = parseInt(boardWidth) + (parseInt(self.options.gutter) * 2) + 'px';
-                } else {
-                    self.container.style.width = parseInt(self.container.style.width) + parseInt(boardWidth) + (parseInt(self.options.gutter) * 2) + 'px';
+                if (!self.options.responsivePercentage) {
+                    //add width to container
+                    if (self.container.style.width === '') {
+                        self.container.style.width = parseInt(boardWidth) + (parseInt(self.options.gutter) * 2) + 'px';
+                    } else {
+                        self.container.style.width = parseInt(self.container.style.width) + parseInt(boardWidth) + (parseInt(self.options.gutter) * 2) + 'px';
+                    }
                 }
                 //create node
                 var boardNode = document.createElement('div');
                 boardNode.dataset.id = board.id;
                 boardNode.classList.add('kanban-board');
                 //set style
-                boardNode.style.width = boardWidth;
+                boardNode.style.width = boardWidth + '%';
                 boardNode.style.marginLeft = self.options.gutter;
                 boardNode.style.marginRight = self.options.gutter;
                 // header board
