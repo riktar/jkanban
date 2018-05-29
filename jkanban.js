@@ -94,6 +94,9 @@ var dragula = require('dragula');
                 self.drake = self.dragula(self.boardContainer, function () {
                     revertOnSpill: true
                 })
+                    .on('cancel', function(el, container, source) {
+                        self.enableAllBoards();
+                    })
                     .on('drag', function (el, source) {
                         el.classList.add('is-moving');
                         var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
@@ -115,13 +118,8 @@ var dragula = require('dragula');
                             el.dragendfn(el);
                     })
                     .on('drop', function (el, target, source, sibling) {
+                        self.enableAllBoards();
 
-                        var allB = document.querySelectorAll('.kanban-board');
-                        if (allB.length > 0 && allB !== undefined) {
-                            for (var i = 0; i < allB.length; i++) {
-                                allB[i].classList.remove('disabled-board');
-                            }
-                        }
                         var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
                         if (boardJSON.dragTo !== undefined) {
                             if (boardJSON.dragTo.indexOf(target.parentNode.dataset.id) === -1 && target.parentNode.dataset.id !== source.parentNode.dataset.id) {
@@ -135,6 +133,15 @@ var dragula = require('dragula');
                                 el.dropfn(el, target, source, sibling);
                         }
                     })
+            }
+        };
+
+        this.enableAllBoards = function() {
+            var allB = document.querySelectorAll('.kanban-board');
+            if (allB.length > 0 && allB !== undefined) {
+                for (var i = 0; i < allB.length; i++) {
+                    allB[i].classList.remove('disabled-board');
+                }
             }
         };
 
