@@ -285,14 +285,18 @@ var dragula = require('dragula');
         this.removeElement = function (el) {
             if (typeof(el) === 'string')
                 el = self.element.querySelector('[data-eid="' + el + '"]');
-            el.remove();
+            if (el !== null) {
+                el.remove();
+            }
             return self;
         };
 
         this.removeBoard = function (board) {
             if (typeof(board) === 'string')
                 board = self.element.querySelector('[data-id="' + board + '"]');
-            board.remove();
+            if (board !== null) {
+                board.remove();
+            }
             return self;
         }
 
