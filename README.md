@@ -77,6 +77,36 @@ Now take a look to the `boards` object
 ```
  **WARNING: all ids are unique!**
  
+### About custom properties
+jKanban also support custom properties on items to improve your applications with html data- properties. You can define them at like:
+```js
+[
+    {
+        "id"    : "board-id-1",
+        "title" : "Board Title",
+        "item"  : [
+            {
+                "id"      : "item-id-1",
+                "title"   : "Item 1",
+                "username": "username1"
+            },
+            {
+                "id"      : "item-id-2",
+                "title"   : "Item 2",
+                "username": "username2"
+            }
+        ]
+    }
+]
+```
+Which jKanban will convert to:
+```html
+<main class="kanban-drag">
+    <div class="kanban-item" data-eid="item-id-1" data-username="username1">Item 1</div>
+    <div class="kanban-item" data-eid="item-id-2" data-username="username2">Item 2</div>
+</main>
+```
+
 ## API
 jKanban provides the easiest possible API to make your boards awesome!
 

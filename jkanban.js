@@ -13,6 +13,7 @@ var dragula = require('dragula');
 
     this.jKanban = function () {
         var self = this;
+        this._disallowedItemProperties = ['id', 'title', 'click', 'drag', 'dragend', 'drop'];
         this.element = '';
         this.container = '';
         this.boardContainer = [];
@@ -158,6 +159,7 @@ var dragula = require('dragula');
             nodeItem.dragfn = element.drag;
             nodeItem.dragendfn = element.dragend;
             nodeItem.dropfn = element.drop;
+            __appendCustomProperties(nodeItem, element);
             __onclickHandler(nodeItem);
             board.appendChild(nodeItem);
             return self;
@@ -248,6 +250,7 @@ var dragula = require('dragula');
                     nodeItem.dragfn = itemKanban.drag;
                     nodeItem.dragendfn = itemKanban.dragend;
                     nodeItem.dropfn = itemKanban.drop;
+                    __appendCustomProperties(nodeItem, itemKanban);
                     //add click handler of item
                     __onclickHandler(nodeItem);
                     contentBoard.appendChild(nodeItem);
@@ -350,6 +353,15 @@ var dragula = require('dragula');
             return el[0]
         }
 
+        function __appendCustomProperties(element, parentObject) {
+            for (var propertyName in parentObject) {
+                if (self._disallowedItemProperties.indexOf(propertyName) > -1) {
+                    continue;
+                }
+
+                element.setAttribute('data-' + propertyName, parentObject[propertyName]);
+            }
+        }
 
         //init plugin
         this.init();
