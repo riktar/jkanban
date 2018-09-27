@@ -331,7 +331,7 @@ var dragula = require('dragula');
 
         function __onclickHandler(nodeItem, clickfn) {
             nodeItem.addEventListener('click', function (e) {
-                e.preventDefault;
+                e.preventDefault();
                 self.options.click(this);
                 if (typeof(this.clickfn) === 'function')
                     this.clickfn(this);
@@ -340,7 +340,7 @@ var dragula = require('dragula');
 
         function __onButtonClickHandler(nodeItem, boardId) {
             nodeItem.addEventListener('click', function (e) {
-                e.preventDefault;
+                e.preventDefault();
                 self.options.buttonClick(this, boardId);
                 // if(typeof(this.clickfn) === 'function')
                 //     this.clickfn(this);
