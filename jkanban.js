@@ -13,7 +13,7 @@ var dragula = require('dragula');
 
     this.jKanban = function () {
         var self = this;
-        this._disallowedItemProperties = ['id', 'title', 'click', 'drag', 'dragend', 'drop'];
+        this._disallowedItemProperties = ['id', 'title', 'click', 'drag', 'dragend', 'drop', 'order'];
         this.element = '';
         this.container = '';
         this.boardContainer = [];
@@ -79,6 +79,7 @@ var dragula = require('dragula');
                             el.dragfn(el, source);
                     })
                     .on('dragend', function (el) {
+                        __updateBoardsOrder();
                         el.classList.remove('is-moving');
                         self.options.dragendBoard(el);
                         if (typeof(el.dragendfn) === 'function')
@@ -212,6 +213,7 @@ var dragula = require('dragula');
                 //create node
                 var boardNode = document.createElement('div');
                 boardNode.dataset.id = board.id;
+                boardNode.dataset.order = self.container.childNodes.length + 1;
                 boardNode.classList.add('kanban-board');
                 //set style
                 if (self.options.responsivePercentage) {
@@ -313,7 +315,6 @@ var dragula = require('dragula');
 
         }
 
-
         //PRIVATE FUNCTION
         function __extendDefaults(source, properties) {
             var property;
@@ -372,6 +373,13 @@ var dragula = require('dragula');
                 }
 
                 element.setAttribute('data-' + propertyName, parentObject[propertyName]);
+            }
+        }
+
+        function __updateBoardsOrder() {
+            var index = 1;
+            for (var i = 0; i < self.container.childNodes.length; i++) {
+                self.container.childNodes[i].dataset.order = index++;
             }
         }
 
