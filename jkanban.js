@@ -99,6 +99,12 @@ var dragula = require('dragula');
                         self.enableAllBoards();
                     })
                     .on('drag', function (el, source) {
+                        var elClass = el.getAttribute("class");
+                        if (elClass !== "" && elClass.indexOf("not-draggable") > -1) {
+                            self.drake.cancel(true);
+                            return;
+                        }
+
                         el.classList.add('is-moving');
                         var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
                         if (boardJSON.dragTo !== undefined) {
@@ -167,6 +173,8 @@ var dragula = require('dragula');
 
         this.addForm = function (boardID, formItem) {
             var board = self.element.querySelector('[data-id="' + boardID + '"] .kanban-drag');
+            var _attribute = formItem.getAttribute("class");
+            formItem.setAttribute("class", _attribute + " not-draggable");
             board.appendChild(formItem);
             return self;
         };
@@ -331,7 +339,7 @@ var dragula = require('dragula');
 
         function __onclickHandler(nodeItem, clickfn) {
             nodeItem.addEventListener('click', function (e) {
-                e.preventDefault;
+                e.preventDefault();
                 self.options.click(this);
                 if (typeof(this.clickfn) === 'function')
                     this.clickfn(this);
@@ -340,7 +348,7 @@ var dragula = require('dragula');
 
         function __onButtonClickHandler(nodeItem, boardId) {
             nodeItem.addEventListener('click', function (e) {
-                e.preventDefault;
+                e.preventDefault();
                 self.options.buttonClick(this, boardId);
                 // if(typeof(this.clickfn) === 'function')
                 //     this.clickfn(this);
