@@ -13,7 +13,7 @@ var dragula = require('dragula');
 
     this.jKanban = function () {
         var self = this;
-        this._disallowedItemProperties = ['id', 'title', 'click', 'drag', 'dragend', 'drop'];
+        this._disallowedItemProperties = ['id', 'title', 'click', 'drag', 'dragend', 'drop', 'order'];
         this.element = '';
         this.container = '';
         this.boardContainer = [];
@@ -79,6 +79,7 @@ var dragula = require('dragula');
                             el.dragfn(el, source);
                     })
                     .on('dragend', function (el) {
+                        __updateBoardsOrder();
                         el.classList.remove('is-moving');
                         self.options.dragendBoard(el);
                         if (typeof(el.dragendfn) === 'function')
@@ -99,6 +100,12 @@ var dragula = require('dragula');
                         self.enableAllBoards();
                     })
                     .on('drag', function (el, source) {
+                        var elClass = el.getAttribute("class");
+                        if (elClass !== "" && elClass.indexOf("not-draggable") > -1) {
+                            self.drake.cancel(true);
+                            return;
+                        }
+
                         el.classList.add('is-moving');
                         var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
                         if (boardJSON.dragTo !== undefined) {
@@ -167,6 +174,8 @@ var dragula = require('dragula');
 
         this.addForm = function (boardID, formItem) {
             var board = self.element.querySelector('[data-id="' + boardID + '"] .kanban-drag');
+            var _attribute = formItem.getAttribute("class");
+            formItem.setAttribute("class", _attribute + " not-draggable");
             board.appendChild(formItem);
             return self;
         };
@@ -204,6 +213,7 @@ var dragula = require('dragula');
                 //create node
                 var boardNode = document.createElement('div');
                 boardNode.dataset.id = board.id;
+                boardNode.dataset.order = self.container.childNodes.length + 1;
                 boardNode.classList.add('kanban-board');
                 //set style
                 if (self.options.responsivePercentage) {
@@ -305,7 +315,6 @@ var dragula = require('dragula');
 
         }
 
-
         //PRIVATE FUNCTION
         function __extendDefaults(source, properties) {
             var property;
@@ -364,6 +373,13 @@ var dragula = require('dragula');
                 }
 
                 element.setAttribute('data-' + propertyName, parentObject[propertyName]);
+            }
+        }
+
+        function __updateBoardsOrder() {
+            var index = 1;
+            for (var i = 0; i < self.container.childNodes.length; i++) {
+                self.container.childNodes[i].dataset.order = index++;
             }
         }
 
