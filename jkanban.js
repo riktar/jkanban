@@ -246,6 +246,12 @@ var dragula = require('dragula');
                 //content board
                 var contentBoard = document.createElement('main');
                 contentBoard.classList.add('kanban-drag');
+                if (board.bodyClass !== '' && board.bodyClass !== undefined)
+                    var bodyClasses = board.bodyClass.split(",");
+                else bodyClasses = [];
+                bodyClasses.map(function (value) {
+                    contentBoard.classList.add(value);
+                });
                 //add drag to array for dragula
                 self.boardContainer.push(contentBoard);
                 for (var itemkey in board.item) {
