@@ -30,6 +30,7 @@ var dragula = require('dragula');
             responsivePercentage: false,
             boards: [],
             dragBoards: true,
+            dragItems: true,    //whether can drag cards or not, useful when set permissions on it.
             addItemButton: false,
             buttonContent: '+',
             dragEl: function (el, source) {
@@ -93,7 +94,11 @@ var dragula = require('dragula');
                     });
 
                 //Init Drag Item
-                self.drake = self.dragula(self.boardContainer, function () {
+                self.drake = self.dragula(self.boardContainer, {
+                    moves: function (el, source, handle, sibling) {
+                        if (!self.options.dragItems) return false;
+                        return (handle.classList.contains('kanban-items') && !handle.classList.contains('not-draggable'));
+                    },
                     revertOnSpill: true
                 })
                     .on('cancel', function(el, container, source) {
