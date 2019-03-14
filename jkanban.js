@@ -97,7 +97,7 @@ var dragula = require('dragula');
                 self.drake = self.dragula(self.boardContainer, {
                     moves: function (el, source, handle, sibling) {
                         if (!self.options.dragItems) return false;
-                        return (handle.classList.contains('kanban-items') && !handle.classList.contains('not-draggable'));
+                        return (handle.classList.contains('kanban-item') && !handle.classList.contains('not-draggable'));
                     },
                     revertOnSpill: true
                 })
@@ -162,7 +162,8 @@ var dragula = require('dragula');
             var board = self.element.querySelector('[data-id="' + boardID + '"] .kanban-drag');
             var nodeItem = document.createElement('div');
             nodeItem.classList.add('kanban-item');
-            if (element.id) {
+            console.log(element);
+            if (typeof(element.id) !== 'undefined' && element.id !== '') {
               nodeItem.setAttribute('data-eid', element.id)
             }
             nodeItem.innerHTML = element.title;
@@ -264,7 +265,9 @@ var dragula = require('dragula');
                     var itemKanban = board.item[itemkey];
                     var nodeItem = document.createElement('div');
                     nodeItem.classList.add('kanban-item');
-                    nodeItem.dataset.eid = itemKanban.id;
+                    if(itemKanban.id){
+                        nodeItem.dataset.eid = itemKanban.id;
+                    }
                     nodeItem.innerHTML = itemKanban.title;
                     //add function
                     nodeItem.clickfn = itemKanban.click;
