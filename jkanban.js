@@ -96,8 +96,7 @@ var dragula = require('dragula');
                 //Init Drag Item
                 self.drake = self.dragula(self.boardContainer, {
                     moves: function (el, source, handle, sibling) {
-                        if (!self.options.dragItems) return false;
-                        return (handle.classList.contains('kanban-items') && !handle.classList.contains('not-draggable'));
+                        return !!self.options.dragItems;
                     },
                     revertOnSpill: true
                 })
