@@ -1,5 +1,5 @@
 {
-  "name": "jKanban",
+  "name": "jkanban",
   "version": "0.0.1",
   "description": "Javascript plugin for Kanban boards",
   "main": "jkanban.js",
