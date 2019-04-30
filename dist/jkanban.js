@@ -30,7 +30,7 @@ var dragula = require("dragula");
     this.drakeBoard = "";
     this.addItemButton = false;
     this.buttonContent = "+";
-    defaults = {
+    var defaults = {
       element: "",
       gutter: "15px",
       widthBoard: "250px",
