@@ -146,7 +146,10 @@ var dragula = require("dragula");
               }
             }
             if (el !== null) {
-              self.options.dropEl(el, target, source, sibling);
+              var result = self.options.dropEl(el, target, source, sibling);
+              if (result === false) {
+                self.drake.cancel(true);
+              }
               el.classList.remove("is-moving");
               if (typeof el.dropfn === "function")
                 el.dropfn(el, target, source, sibling);
