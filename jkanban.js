@@ -375,11 +375,21 @@ var dragula = require("dragula");
     };
 
     this.removeBoard = function(board) {
+      var boardElement = null;
       if (typeof board === "string")
-        board = self.element.querySelector('[data-id="' + board + '"]');
-      if (board !== null) {
+        boardElement = self.element.querySelector('[data-id="' + board + '"]');
+      if (boardElement !== null) {
         board.remove();
       }
+      
+      // remove thboard in options.boards
+	    for(var i = 0; i < self.options.boards.length; i++) {
+		    if(self.options.boards[i].id === board) {
+			    self.options.boards.splice(i, 1);
+			    break;
+		    }
+	    }
+      
       return self;
     };
 
