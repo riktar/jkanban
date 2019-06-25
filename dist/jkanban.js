@@ -380,7 +380,7 @@ var dragula = require("dragula");
       if (typeof board === "string")
         boardElement = self.element.querySelector('[data-id="' + board + '"]');
       if (boardElement !== null) {
-        board.remove();
+        boardElement.remove();
       }
       
       // remove thboard in options.boards
