@@ -63,6 +63,7 @@ Now take a look to the `boards` object
             {
                 "id"    : "item-id-1",        // id of the item
                 "title" : "Item 1"            // title of the item
+                "class" : ["myClass",...]     // array of additional classes
             },
             {
                 "id"    : "item-id-2",

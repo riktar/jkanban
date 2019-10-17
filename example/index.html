@@ -59,6 +59,10 @@
         click: function(el) {
           console.log("Trigger on all items click!");
         },
+        dropEl: function(el, target, source, sibling){
+          console.log(target.parentElement.getAttribute('data-id'));
+          console.log(el, target, source, sibling)
+        },
         buttonClick: function(el, boardId) {
           console.log(el);
           console.log(boardId);
@@ -106,7 +110,8 @@
                 title: "Try Click This!",
                 click: function(el) {
                   alert("click");
-                }
+                },
+                class: ["peppe", "bello"]
               }
             ]
           },

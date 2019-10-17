@@ -174,7 +174,6 @@ var dragula = require("dragula");
       );
       var nodeItem = document.createElement("div");
       nodeItem.classList.add("kanban-item");
-      console.log(element);
       if (typeof element.id !== "undefined" && element.id !== "") {
         nodeItem.setAttribute("data-eid", element.id);
       }
@@ -291,6 +290,12 @@ var dragula = require("dragula");
           nodeItem.classList.add("kanban-item");
           if (itemKanban.id) {
             nodeItem.dataset.eid = itemKanban.id;
+          }
+          console.log(itemKanban.class)
+          if(itemKanban.class && Array.isArray(itemKanban.class)) {
+            itemKanban.class.forEach( function(cl){
+              nodeItem.classList.add(cl);
+            })
           }
           nodeItem.innerHTML = itemKanban.title;
           //add function
