@@ -177,11 +177,6 @@ var dragula = require("dragula");
       if (typeof element.id !== "undefined" && element.id !== "") {
         nodeItem.setAttribute("data-eid", element.id);
       }
-      if(element.class && Array.isArray(element.class)) {
-	element.class.forEach( function(cl){
-	  nodeItem.classList.add(cl);
-	})
-      }
       nodeItem.innerHTML = element.title;
       //add function
       nodeItem.clickfn = element.click;
