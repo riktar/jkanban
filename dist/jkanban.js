@@ -177,6 +177,11 @@ var dragula = require("dragula");
       if (typeof element.id !== "undefined" && element.id !== "") {
         nodeItem.setAttribute("data-eid", element.id);
       }
+      if(element.class && Array.isArray(element.class)) {
+	element.class.forEach( function(cl){
+	  nodeItem.classList.add(cl);
+	})
+      }
       nodeItem.innerHTML = element.title;
       //add function
       nodeItem.clickfn = element.click;
@@ -291,7 +296,6 @@ var dragula = require("dragula");
           if (itemKanban.id) {
             nodeItem.dataset.eid = itemKanban.id;
           }
-          console.log(itemKanban.class)
           if(itemKanban.class && Array.isArray(itemKanban.class)) {
             itemKanban.class.forEach( function(cl){
               nodeItem.classList.add(cl);

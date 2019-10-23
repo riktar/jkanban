@@ -295,7 +295,6 @@ var dragula = require("dragula");
           if (itemKanban.id) {
             nodeItem.dataset.eid = itemKanban.id;
           }
-          console.log(itemKanban.class)
           if(itemKanban.class && Array.isArray(itemKanban.class)) {
             itemKanban.class.forEach( function(cl){
               nodeItem.classList.add(cl);
