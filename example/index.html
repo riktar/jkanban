@@ -50,12 +50,15 @@
     <br />
     <button id="removeElement">Remove "My Task Test"</button>
 
-    <script src="../dist/jkanban.min.js"></script>
+    <script src="../dist/jkanban.js"></script>
     <script>
       var KanbanTest = new jKanban({
         element: "#myKanban",
         gutter: "10px",
         widthBoard: "450px",
+        itemHandleOptions:{
+          enabled: true,
+        },
         click: function(el) {
           console.log("Trigger on all items click!");
         },

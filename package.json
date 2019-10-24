@@ -4,7 +4,10 @@
   "description": "Javascript plugin for Kanban boards",
   "main": "jkanban.js",
   "watch": {
-    "build": ["jkanban.js", "jkanban.css"]
+    "build": [
+      "jkanban.js",
+      "jkanban.css"
+    ]
   },
   "scripts": {
     "watch_build": "npm-watch build",
@@ -30,12 +33,12 @@
   "license": "Apache 2.0",
   "dependencies": {
     "dragula": "^3.7.2",
-    "npm-watch": "^0.4.0"
+    "npm-watch": "^0.6.0"
   },
   "devDependencies": {
-    "browserify": "^16.2.3",
+    "browserify": "^16.5.0",
     "clean-css-cli": "^4.3.0",
     "npm-css": "0.2.3",
-    "uglify-js": "^3.5.15"
+    "uglify-js": "^3.6.4"
   }
 }
