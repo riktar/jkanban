@@ -12,6 +12,9 @@ var dragula = require("dragula");
 (function() {
   this.jKanban = function() {
     var self = this;
+    var __DEFAULT_ITEM_HANDLE_OPTIONS = {
+      enabled: false
+    }
     this._disallowedItemProperties = [
       "id",
       "title",
@@ -24,11 +27,13 @@ var dragula = require("dragula");
     this.element = "";
     this.container = "";
     this.boardContainer = [];
+    this.handlers = [];
     this.dragula = dragula;
     this.drake = "";
     this.drakeBoard = "";
     this.addItemButton = false;
     this.buttonContent = "+";
+    this.itemHandleOptions = __DEFAULT_ITEM_HANDLE_OPTIONS;
     var defaults = {
       element: "",
       gutter: "15px",
@@ -40,6 +45,7 @@ var dragula = require("dragula");
       dragItems: true, //whether can drag cards or not, useful when set permissions on it.
       addItemButton: false,
       buttonContent: "+",
+      itemHandleOptions: __DEFAULT_ITEM_HANDLE_OPTIONS,
       dragEl: function(el, source) {},
       dragendEl: function(el) {},
       dropEl: function(el, target, source, sibling) {},
@@ -52,6 +58,18 @@ var dragula = require("dragula");
 
     if (arguments[0] && typeof arguments[0] === "object") {
       this.options = __extendDefaults(defaults, arguments[0]);
+    }
+
+    this.__getCanMove = function(handle) {
+      if (!self.itemHandleOptions.enabled) {
+        return !!self.options.dragItems;
+      }
+
+      if (self.itemHandleOptions.handleClass) {
+        return handle.classList.contains(self.itemHandleOptions.handleClass);
+      }
+
+      return handle.classList.contains("item_handle")
     }
 
     this.init = function() {
@@ -97,7 +115,7 @@ var dragula = require("dragula");
         self.drake = self
           .dragula(self.boardContainer, {
             moves: function(el, source, handle, sibling) {
-              return !!self.options.dragItems;
+              return self.__getCanMove(handle);
             },
             revertOnSpill: true
           })
@@ -181,7 +199,7 @@ var dragula = require("dragula");
 	  nodeItem.classList.add(cl);
 	})
       }
-      nodeItem.innerHTML = element.title;
+      nodeItem.innerHTML = __buildItemTitle(element.title);
       //add function
       nodeItem.clickfn = element.click;
       nodeItem.dragfn = element.drag;
@@ -189,6 +207,9 @@ var dragula = require("dragula");
       nodeItem.dropfn = element.drop;
       __appendCustomProperties(nodeItem, element);
       __onclickHandler(nodeItem);
+      if (self.itemHandleOptions.enabled) {
+        nodeItem.style.cursor = "default";
+      }
       board.appendChild(nodeItem);
       return self;
     };
@@ -300,7 +321,7 @@ var dragula = require("dragula");
               nodeItem.classList.add(cl);
             })
           }
-          nodeItem.innerHTML = itemKanban.title;
+          nodeItem.innerHTML = __buildItemTitle(itemKanban.title);
           //add function
           nodeItem.clickfn = itemKanban.click;
           nodeItem.dragfn = itemKanban.drag;
@@ -309,6 +330,9 @@ var dragula = require("dragula");
           __appendCustomProperties(nodeItem, itemKanban);
           //add click handler of item
           __onclickHandler(nodeItem);
+          if (self.itemHandleOptions.enabled) {
+            nodeItem.style.cursor = "default";
+          }
           contentBoard.appendChild(nodeItem);
         }
         //footer board
@@ -390,7 +414,7 @@ var dragula = require("dragula");
       if (boardElement !== null) {
         boardElement.remove();
       }
-      
+
       // remove thboard in options.boards
 	    for(var i = 0; i < self.options.boards.length; i++) {
 		    if(self.options.boards[i].id === board) {
@@ -398,13 +422,12 @@ var dragula = require("dragula");
 			    break;
 		    }
 	    }
-      
+
       return self;
     };
 
     // board button on click function
     this.onButtonClick = function(el) {};
-
     //PRIVATE FUNCTION
     function __extendDefaults(source, properties) {
       var property;
@@ -473,6 +496,27 @@ var dragula = require("dragula");
       for (var i = 0; i < self.container.childNodes.length; i++) {
         self.container.childNodes[i].dataset.order = index++;
       }
+    }
+
+    function __buildItemTitle(title) {
+      var result = title;
+      if (self.itemHandleOptions.enabled) {
+        if ((self.itemHandleOptions.customHandler || undefined) === undefined) {
+          var customCssHandler = self.itemHandleOptions.customCssHandler;
+          var customCssIconHandler = self.itemHandleOptions.customCssIconHandler;
+          if ((customCssHandler || undefined) === undefined) {
+            customCssHandler = "drag_handler";
+          }
+          if ((customCssIconHandler || undefined) === undefined) {
+            customCssIconHandler = customCssHandler + "_icon";
+          }
+
+          result = "<div class='item_handle "+customCssHandler+"'><i class='item_handle "+customCssIconHandler+"'></i></div><div>" + result + "</div>";
+        } else {
+          result = self.itemHandleOptions.customHandler.replace("%s", result);
+        }
+      }
+      return result;
     }
 
     //init plugin

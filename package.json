@@ -4,7 +4,7 @@
   "description": "Javascript plugin for Kanban boards",
   "main": "jkanban.js",
   "watch": {
-    "build": "jkanban.js"
+    "build": ["jkanban.js", "jkanban.css"]
   },
   "scripts": {
     "watch_build": "npm-watch build",

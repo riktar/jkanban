@@ -10,12 +10,12 @@ jKanban allow you to create and manage Kanban Board in your project!
 
 Please try out the live [demo][1]!
 
-[1]: http://www.riccardotartaglia.it/jkanban/ 
+[1]: http://www.riccardotartaglia.it/jkanban/
 
 ## Install
 Clone the repo and use the javascript and the css files in the `dist` folder.
 
-You have to include 
+You have to include
 
 `<link rel="stylesheet" href="path/to/jkanban.min.css">`
 
@@ -32,22 +32,29 @@ Init jKanban is a piece of cake!
 Here's an **overview of the default values**.
 ```js
 var kanban = new jKanban({
-    element         : '',                                           // selector of the kanban container
-    gutter          : '15px',                                       // gutter of the board
-    widthBoard      : '250px',                                      // width of the board
+    element          : '',                                           // selector of the kanban container
+    gutter           : '15px',                                       // gutter of the board
+    widthBoard       : '250px',                                      // width of the board
     responsivePercentage: false,                                    // if it is true I use percentage in the width of the boards and it is not necessary gutter and widthBoard
-    dragItems       : true,                                         // if false, all items are not draggable
-    boards          : [],                                           // json of boards
-    dragBoards      : true,                                         // the boards are draggable, if false only item can be dragged
-    addItemButton   : false,                                        // add a button to board for easy item creation
-    buttonContent   : '+',                                          // text or html content of the board button
-    click           : function (el) {},                             // callback when any board's item are clicked
-    dragEl          : function (el, source) {},                     // callback when any board's item are dragged
-    dragendEl       : function (el) {},                             // callback when any board's item stop drag
-    dropEl          : function (el, target, source, sibling) {},    // callback when any board's item drop in a board
-    dragBoard       : function (el, source) {},                     // callback when any board stop drag
-    dragendBoard    : function (el) {},                             // callback when any board stop drag
-    buttonClick     : function(el, boardId) {}                      // callback when the board's button is clicked
+    dragItems        : true,                                         // if false, all items are not draggable
+    boards           : [],                                           // json of boards
+    dragBoards       : true,                                         // the boards are draggable, if false only item can be dragged
+    addItemButton    : false,                                        // add a button to board for easy item creation
+    buttonContent    : '+',                                          // text or html content of the board button
+    itemHandleOptions: {
+        enabled             : false,                                 // if board item handle is enabled or not
+        handleClass         : "item_handle",                         // css class for your custom item handle
+        customCssHandler    : "drag_handler",                        // when customHandler is undefined, jKanban will use this property to set main handler class
+        customCssIconHandler: "drag_handler_icon",                   // when customHandler is undefined, jKanban will use this property to set main icon handler class. If you want, you can use font icon libraries here
+        customHandler       : "<span class='item_handle'>+</span> %s"// your entirely customized handler. Use %s to position item title
+    },
+    click            : function (el) {},                             // callback when any board's item are clicked
+    dragEl           : function (el, source) {},                     // callback when any board's item are dragged
+    dragendEl        : function (el) {},                             // callback when any board's item stop drag
+    dropEl           : function (el, target, source, sibling) {},    // callback when any board's item drop in a board
+    dragBoard        : function (el, source) {},                     // callback when any board stop drag
+    dragendBoard     : function (el) {},                             // callback when any board stop drag
+    buttonClick      : function(el, boardId) {}                      // callback when the board's button is clicked
 })
 ```
 
@@ -58,7 +65,7 @@ Now take a look to the `boards` object
         "id"    : "board-id-1",               // id of the board
         "title" : "Board Title",              // title of the board
         "class" : "class1,class2,...",        // css classes to add at the title
-        "dragTo": ['another-board-id',...],   // array of ids of boards where items can be dropped (default: [])    
+        "dragTo": ['another-board-id',...],   // array of ids of boards where items can be dropped (default: [])
         "item"  : [                           // item of this board
             {
                 "id"    : "item-id-1",        // id of the item
@@ -72,13 +79,13 @@ Now take a look to the `boards` object
         ]
     },
     {
-        "id"    : "board-id-2",               
+        "id"    : "board-id-2",
         "title" : "Board Title 2"
     }
 ]
 ```
  **WARNING: all ids are unique!**
- 
+
 ### About custom properties
 jKanban also support custom properties on items to improve your applications with html data- properties. You can define them at like:
 ```js
@@ -114,7 +121,7 @@ jKanban provides the easiest possible API to make your boards awesome!
 
 Method Name           | Arguments                        | Description
 ----------------------|----------------------------------|------------------------------------------------------------------------------------------------------------------------------
-`addElement`          | `boardID, element`               | Add `element` in the board with ID `boardID`, `element` is the standard format 
+`addElement`          | `boardID, element`               | Add `element` in the board with ID `boardID`, `element` is the standard format
 `addForm`             | `boardID, formItem`              | Add `formItem` as html element into the board with ID `boardID`
 `addBoards`           | `boards`                         | Add one or more boards in the kanban, `boards` are in the standard format
 `findElement`         | `id`                             | Find board's item by `id`
@@ -134,12 +141,12 @@ jKanban use [dragula](https://github.com/bevacqua/dragula) for drag&drop
 ## Develop
 Clone the repo then use `npm install` for download all the dependencies then launch `npm run build` for build the project
 
-### Pull Requests? 
+### Pull Requests?
 I'd love them!
 
 ### Comments?
 Let's hear them! (The nice ones please!)
 
-### Me? 
+### Me?
 In case you're interested I'm [@riktarweb](http://twitter.com/riktarweb)
 
