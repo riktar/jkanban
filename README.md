@@ -4,7 +4,7 @@
 
 > Javascript plugin for Kanban boards
 
-## [SUPPORT THIS PLUGIN!](https://github.com/sponsors/riktar)
+## [SUPPORT THIS PLUGIN!](https://donorbox.org/jkanban)
 
 jKanban allow you to create and manage Kanban Board in your project!
 
