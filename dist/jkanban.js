@@ -967,6 +967,9 @@ function dragula (initialContainers, options) {
     if (isContainer(item)) {
       return; // don't drag container itself
     }
+    if(item.classList.contains('not-draggable')) {
+      return; // don't drag elements with class 'not-draggable'
+    }
     var handle = item;
     while (getParent(item) && isContainer(getParent(item)) === false) {
       if (o.invalid(item, handle)) {
