@@ -403,7 +403,12 @@ var dragula = require("dragula");
       if (typeof el === "string")
         el = self.element.querySelector('[data-eid="' + el + '"]');
       if (el !== null) {
-        el.remove();
+        //fallback for IE
+        if(typeof el.remove == "function"){
+          el.remove();
+        } else {
+          el.parentNode.removeChild(el);
+        }
       }
       return self;
     };
@@ -413,7 +418,12 @@ var dragula = require("dragula");
       if (typeof board === "string")
         boardElement = self.element.querySelector('[data-id="' + board + '"]');
       if (boardElement !== null) {
-        boardElement.remove();
+        //fallback for IE
+        if(typeof boardElement.remove == "function"){
+          boardElement.remove();
+        } else {
+          boardElement.parentNode.removeChild(boardElement);
+        }
       }
 
       // remove thboard in options.boards
