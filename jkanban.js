@@ -413,7 +413,7 @@ var dragula = require("dragula");
         boardElement = self.element.querySelector('[data-id="' + board + '"]');
       if (boardElement !== null) {
         //fallback for IE
-        if(typeof boardElement.remove =='function'){
+        if(typeof boardElement.remove == "function"){
           boardElement.remove();
         } else {
           boardElement.parentNode.removeChild(boardElement);
