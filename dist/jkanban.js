@@ -403,7 +403,12 @@ var dragula = require("dragula");
       if (typeof el === "string")
         el = self.element.querySelector('[data-eid="' + el + '"]');
       if (el !== null) {
-        el.remove();
+        //fallback for IE
+        if(typeof el.remove == "function"){
+          el.remove();
+        } else {
+          el.parentNode.removeChild(el);
+        }
       }
       return self;
     };
