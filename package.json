@@ -33,12 +33,12 @@
   "license": "Apache 2.0",
   "dependencies": {
     "dragula": "^3.7.2",
-    "npm-watch": "^0.6.0"
+    "npm-watch": "^0.7.0"
   },
   "devDependencies": {
-    "browserify": "^16.5.0",
+    "browserify": "^16.5.2",
     "clean-css-cli": "^4.3.0",
     "npm-css": "0.2.3",
-    "uglify-js": "^3.6.4"
+    "uglify-js": "^3.10.1"
   }
 }
