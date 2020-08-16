@@ -1,10 +1,9 @@
-[![jKanban](https://www.riccardotartaglia.it/blog/wp-content/uploads/2020/08/jKanban-banner.png)](https://xscode.com/riktar/jkanban)
-
 # jKanban
 
 > Javascript plugin for Kanban boards
 
-## [SUPPORT THIS PLUGIN!](https://donorbox.org/jkanban)
+## GET SUPPORT / REQUIRE CUSTOM FEATURE
+[![jKanban](https://www.riccardotartaglia.it/blog/wp-content/uploads/2020/08/jKanban-banner.png)](https://xscode.com/riktar/jkanban)
 
 jKanban allow you to create and manage Kanban Board in your project!
 
