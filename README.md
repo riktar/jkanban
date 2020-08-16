@@ -1,4 +1,4 @@
-<img src="https://www.riccardotartaglia.it/jkanban/jkanban.png" width="80" style="position:relative; top:30px" />
+[![Foo](https://xscode.com/assets/promo-banner.svg)](https://xscode.com/riktar/jkanban)
 
 # jKanban
 
