@@ -1,4 +1,4 @@
-[![Foo](https://xscode.com/assets/promo-banner.svg)](https://xscode.com/riktar/jkanban)
+[![jKanban](https://www.riccardotartaglia.it/blog/wp-content/uploads/2020/08/jKanban-banner.png)](https://xscode.com/riktar/jkanban)
 
 # jKanban
 
