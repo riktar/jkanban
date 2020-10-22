@@ -224,6 +224,7 @@ var dragula = require("dragula");
       return self;
     };
 
+
     this.addBoards = function(boards, isInit) {
       if (self.options.responsivePercentage) {
         self.container.style.width = "100%";
@@ -458,7 +459,29 @@ var dragula = require("dragula");
       boardContainer.classList.add("kanban-container");
       self.container = boardContainer;
       //add boards
-      self.addBoards(self.options.boards, true);
+
+        console.log(self.options.boards);
+
+        if (document.querySelector(self.options.element).dataset.hasOwnProperty('board')) {
+          url = document.querySelector(self.options.element).dataset.board;
+          console.log(url);
+          getJSON(url,  function(err, data) {
+
+            if (err != null) {
+              console.error(err);
+            } else {
+
+              self.options.boards = data;
+              self.addBoards(self.options.boards, true);
+
+              console.log(data);
+            }
+          });
+        } else {
+          self.addBoards(self.options.boards, true);
+        }
+
+
       //appends to container
       self.element.appendChild(self.container);
     }
@@ -489,6 +512,28 @@ var dragula = require("dragula");
       });
       return el[0];
     }
+
+
+    function getJSON (url, callback) {
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.responseType = 'json';
+
+      xhr.onload = function() {
+
+        var status = xhr.status;
+
+        if (status == 200) {
+          callback(null, xhr.response);
+        } else {
+          callback(status);
+        }
+      };
+
+      xhr.send();
+    };
+
 
     function __appendCustomProperties(element, parentObject) {
       for (var propertyName in parentObject) {
