@@ -458,7 +458,30 @@ var dragula = require("dragula");
       boardContainer.classList.add("kanban-container");
       self.container = boardContainer;
       //add boards
-      self.addBoards(self.options.boards, true);
+
+      if (document.querySelector(self.options.element).dataset.hasOwnProperty('board')) {
+        url = document.querySelector(self.options.element).dataset.board;
+        console.log(url);
+        window.fetch (url, {
+          method: 'GET',
+          headers: {'Content-Type' : 'application/json'}
+        })
+          .then ( (response) => {
+            // log response text
+            response.json().then(function(data) {
+              console.log(data);
+              self.options.boards = data;
+              self.addBoards(self.options.boards, true);
+            });
+
+          })
+          .catch ((error) => {
+            console.log ("Error: ", error)
+          })
+      } else {
+        self.addBoards(self.options.boards, true);
+      }
+
       //appends to container
       self.element.appendChild(self.container);
     }
