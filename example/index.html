@@ -38,6 +38,18 @@
       .error {
         background: #fb7d44;
       }
+
+      .custom-button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 7px 15px;
+        margin: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+      }      
     </style>
   </head>
   <body>
@@ -88,7 +100,12 @@
             formItem.parentNode.removeChild(formItem);
           };
         },
-        addItemButton: true,
+        itemAddOptions: {
+          enabled: true,
+          content: '+ Add New Card',
+          class: 'custom-button',
+          footer: true
+        },
         boards: [
           {
             id: "_todo",
