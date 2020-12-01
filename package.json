@@ -39,6 +39,6 @@
     "browserify": "^16.5.2",
     "clean-css-cli": "^4.3.0",
     "npm-css": "0.2.3",
-    "uglify-js": "^3.10.1"
+    "uglify-es": "^3.3.9"
   }
 }

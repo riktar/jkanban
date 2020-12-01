@@ -15,6 +15,9 @@ var dragula = require("dragula");
     var __DEFAULT_ITEM_HANDLE_OPTIONS = {
       enabled: false
     }
+    var __DEFAULT_ITEM_ADD_OPTIONS = {
+      enabled: false
+    }
     this._disallowedItemProperties = [
       "id",
       "title",
@@ -31,8 +34,7 @@ var dragula = require("dragula");
     this.dragula = dragula;
     this.drake = "";
     this.drakeBoard = "";
-    this.addItemButton = false;
-    this.buttonContent = "+";
+    this.itemAddOptions = __DEFAULT_ITEM_ADD_OPTIONS;
     this.itemHandleOptions = __DEFAULT_ITEM_HANDLE_OPTIONS;
     var defaults = {
       element: "",
@@ -43,8 +45,7 @@ var dragula = require("dragula");
       boards: [],
       dragBoards: true,
       dragItems: true, //whether can drag cards or not, useful when set permissions on it.
-      addItemButton: false,
-      buttonContent: "+",
+      itemAddOptions: __DEFAULT_ITEM_ADD_OPTIONS,
       itemHandleOptions: __DEFAULT_ITEM_HANDLE_OPTIONS,
       dragEl: function(el, source) {},
       dragendEl: function(el) {},
@@ -236,8 +237,10 @@ var dragula = require("dragula");
       } else {
         var boardWidth = self.options.widthBoard;
       }
-      var addButton = self.options.addItemButton;
-      var buttonContent = self.options.buttonContent;
+      var addButton = self.options.itemAddOptions.enabled;
+      var buttonContent = self.options.itemAddOptions.content;
+      var buttonClass = self.options.itemAddOptions.class;
+      var buttonFooter = self.options.itemAddOptions.footer;
 
       //for on all the boards
       for (var boardkey in boards) {
@@ -286,19 +289,6 @@ var dragula = require("dragula");
         });
         headerBoard.innerHTML =
           '<div class="kanban-title-board">' + board.title + "</div>";
-        // if add button is true, add button to the board
-        if (addButton) {
-          var btn = document.createElement("BUTTON");
-          var t = document.createTextNode(buttonContent);
-          btn.setAttribute(
-            "class",
-            "kanban-title-button btn btn-default btn-xs"
-          );
-          btn.appendChild(t);
-          //var buttonHtml = '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>'
-          headerBoard.appendChild(btn);
-          __onButtonClickHandler(btn, board.id);
-        }
         //content board
         var contentBoard = document.createElement("main");
         contentBoard.classList.add("kanban-drag");
@@ -339,6 +329,23 @@ var dragula = require("dragula");
         }
         //footer board
         var footerBoard = document.createElement("footer");
+        // if add button is true, add button to the board
+        if (addButton) {
+          var btn = document.createElement("BUTTON");
+          var t = document.createTextNode(buttonContent ? buttonContent : "+");
+          btn.setAttribute(
+            "class",
+            buttonClass ? buttonClass : 'kanban-title-button btn btn-default btn-xs'
+          );
+          btn.appendChild(t);
+          //var buttonHtml = '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>'
+          if (buttonFooter) {
+            footerBoard.appendChild(btn);
+          } else {
+            headerBoard.appendChild(btn);
+          }
+          __onButtonClickHandler(btn, board.id);
+        }         
         //board assembly
         boardNode.appendChild(headerBoard);
         boardNode.appendChild(contentBoard);

@@ -38,8 +38,12 @@ var kanban = new jKanban({
     dragItems        : true,                                         // if false, all items are not draggable
     boards           : [],                                           // json of boards
     dragBoards       : true,                                         // the boards are draggable, if false only item can be dragged
-    addItemButton    : false,                                        // add a button to board for easy item creation
-    buttonContent    : '+',                                          // text or html content of the board button
+    itemAddOptions: {
+        enabled: false,                                              // add a button to board for easy item creation
+        content: '+',                                                // text or html content of the board button   
+        class: 'kanban-title-button btn btn-default btn-xs',         // default class of the button
+        footer: false                                                // position the button on footer
+    },    
     itemHandleOptions: {
         enabled             : false,                                 // if board item handle is enabled or not
         handleClass         : "item_handle",                         // css class for your custom item handle

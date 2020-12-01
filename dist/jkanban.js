@@ -16,6 +16,9 @@ var dragula = require("dragula");
     var __DEFAULT_ITEM_HANDLE_OPTIONS = {
       enabled: false
     }
+    var __DEFAULT_ITEM_ADD_OPTIONS = {
+      enabled: false
+    }
     this._disallowedItemProperties = [
       "id",
       "title",
@@ -32,8 +35,7 @@ var dragula = require("dragula");
     this.dragula = dragula;
     this.drake = "";
     this.drakeBoard = "";
-    this.addItemButton = false;
-    this.buttonContent = "+";
+    this.itemAddOptions = __DEFAULT_ITEM_ADD_OPTIONS;
     this.itemHandleOptions = __DEFAULT_ITEM_HANDLE_OPTIONS;
     var defaults = {
       element: "",
@@ -44,8 +46,7 @@ var dragula = require("dragula");
       boards: [],
       dragBoards: true,
       dragItems: true, //whether can drag cards or not, useful when set permissions on it.
-      addItemButton: false,
-      buttonContent: "+",
+      itemAddOptions: __DEFAULT_ITEM_ADD_OPTIONS,
       itemHandleOptions: __DEFAULT_ITEM_HANDLE_OPTIONS,
       dragEl: function(el, source) {},
       dragendEl: function(el) {},
@@ -237,8 +238,10 @@ var dragula = require("dragula");
       } else {
         var boardWidth = self.options.widthBoard;
       }
-      var addButton = self.options.addItemButton;
-      var buttonContent = self.options.buttonContent;
+      var addButton = self.options.itemAddOptions.enabled;
+      var buttonContent = self.options.itemAddOptions.content;
+      var buttonClass = self.options.itemAddOptions.class;
+      var buttonFooter = self.options.itemAddOptions.footer;
 
       //for on all the boards
       for (var boardkey in boards) {
@@ -280,24 +283,13 @@ var dragula = require("dragula");
           var allClasses = board.class.split(",");
         else allClasses = [];
         headerBoard.classList.add("kanban-board-header");
-        allClasses.map(function(value) {
+        allClasses.map(function (value) {
+          // Remove empty spaces
+          value = value.replace(/^[ ]+/g, "");
           headerBoard.classList.add(value);
         });
         headerBoard.innerHTML =
           '<div class="kanban-title-board">' + board.title + "</div>";
-        // if add button is true, add button to the board
-        if (addButton) {
-          var btn = document.createElement("BUTTON");
-          var t = document.createTextNode(buttonContent);
-          btn.setAttribute(
-            "class",
-            "kanban-title-button btn btn-default btn-xs"
-          );
-          btn.appendChild(t);
-          //var buttonHtml = '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>'
-          headerBoard.appendChild(btn);
-          __onButtonClickHandler(btn, board.id);
-        }
         //content board
         var contentBoard = document.createElement("main");
         contentBoard.classList.add("kanban-drag");
@@ -338,6 +330,23 @@ var dragula = require("dragula");
         }
         //footer board
         var footerBoard = document.createElement("footer");
+        // if add button is true, add button to the board
+        if (addButton) {
+          var btn = document.createElement("BUTTON");
+          var t = document.createTextNode(buttonContent ? buttonContent : "+");
+          btn.setAttribute(
+            "class",
+            buttonClass ? buttonClass : 'kanban-title-button btn btn-default btn-xs'
+          );
+          btn.appendChild(t);
+          //var buttonHtml = '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>'
+          if (buttonFooter) {
+            footerBoard.appendChild(btn);
+          } else {
+            headerBoard.appendChild(btn);
+          }
+          __onButtonClickHandler(btn, board.id);
+        }         
         //board assembly
         boardNode.appendChild(headerBoard);
         boardNode.appendChild(contentBoard);
@@ -457,7 +466,30 @@ var dragula = require("dragula");
       boardContainer.classList.add("kanban-container");
       self.container = boardContainer;
       //add boards
-      self.addBoards(self.options.boards, true);
+
+      if (document.querySelector(self.options.element).dataset.hasOwnProperty('board')) {
+        url = document.querySelector(self.options.element).dataset.board;
+        console.log(url);
+        window.fetch (url, {
+          method: 'GET',
+          headers: {'Content-Type' : 'application/json'}
+        })
+          .then ( (response) => {
+            // log response text
+            response.json().then(function(data) {
+              console.log(data);
+              self.options.boards = data;
+              self.addBoards(self.options.boards, true);
+            });
+
+          })
+          .catch ((error) => {
+            console.log ("Error: ", error)
+          })
+      } else {
+        self.addBoards(self.options.boards, true);
+      }
+
       //appends to container
       self.element.appendChild(self.container);
     }
