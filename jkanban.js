@@ -131,7 +131,10 @@ var dragula = require("dragula");
             }
 
             el.classList.add("is-moving");
-            var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
+            
+	    self.options.dragEl(el, source);
+            	
+	    var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
             if (boardJSON.dragTo !== undefined) {
               self.options.boards.map(function(board) {
                 if (
@@ -143,7 +146,6 @@ var dragula = require("dragula");
               });
             }
 
-            self.options.dragEl(el, source);
             if (el !== null && typeof el.dragfn === "function")
               el.dragfn(el, source);
           })
