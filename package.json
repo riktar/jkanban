@@ -32,11 +32,11 @@
   "author": "Riccardo Tartaglia",
   "license": "Apache 2.0",
   "dependencies": {
-    "dragula": "^3.7.2",
+    "dragula": "^3.7.3",
     "npm-watch": "^0.7.0"
   },
   "devDependencies": {
-    "browserify": "^16.5.2",
+    "browserify": "^17.0.0",
     "clean-css-cli": "^4.3.0",
     "npm-css": "0.2.3",
     "uglify-es": "^3.3.9"
