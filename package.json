@@ -1,6 +1,6 @@
 {
   "name": "jkanban",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Javascript plugin for Kanban boards",
   "main": "jkanban.js",
   "watch": {
