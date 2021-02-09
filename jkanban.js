@@ -521,7 +521,7 @@ var dragula = require('dragula');
       } else {
         nodeItem.attachEvent('oncontextmenu', function () {
           self.options.context(this)
-          if (typeof this.contextfn === 'function') this.contextfn(this, e)
+          if (typeof this.contextfn === 'function') this.contextfn(this)
           window.event.returnValue = false
         })
       }
