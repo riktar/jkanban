@@ -22,6 +22,7 @@ var dragula = require('dragula');
       'id',
       'title',
       'click',
+      'context',
       'drag',
       'dragend',
       'drop',
@@ -54,6 +55,7 @@ var dragula = require('dragula');
       dragendBoard: function (el) {},
       dropBoard: function (el, target, source, sibling) {},
       click: function (el) {},
+      context: function (el, e) {},
       buttonClick: function (el, boardId) {}
     }
 
@@ -205,11 +207,13 @@ var dragula = require('dragula');
       nodeItem.innerHTML = __buildItemTitle(element.title)
       //add function
       nodeItem.clickfn = element.click
+      nodeItem.contextfn = element.context;
       nodeItem.dragfn = element.drag
       nodeItem.dragendfn = element.dragend
       nodeItem.dropfn = element.drop
       __appendCustomProperties(nodeItem, element)
       __onclickHandler(nodeItem)
+      __onContextHandler(nodeItem)
       if (self.options.itemHandleOptions.enabled) {
         nodeItem.style.cursor = 'default'
       }
@@ -318,12 +322,14 @@ var dragula = require('dragula');
           nodeItem.innerHTML = __buildItemTitle(itemKanban.title)
           //add function
           nodeItem.clickfn = itemKanban.click
+          nodeItem.contextfn = itemKanban.context
           nodeItem.dragfn = itemKanban.drag
           nodeItem.dragendfn = itemKanban.dragend
           nodeItem.dropfn = itemKanban.drop
           __appendCustomProperties(nodeItem, itemKanban)
           //add click handler of item
           __onclickHandler(nodeItem)
+          __onContextHandler(nodeItem)
           if (self.options.itemHandleOptions.enabled) {
             nodeItem.style.cursor = 'default'
           }
@@ -390,10 +396,13 @@ var dragula = require('dragula');
       nodeItem.innerHTML = element.title
       // add function
       nodeItem.clickfn = element.click
+      nodeItem.contextfn = element.context
       nodeItem.dragfn = element.drag
       nodeItem.dragendfn = element.dragend
       nodeItem.dropfn = element.drop
       __appendCustomProperties(nodeItem, element)
+      __onclickHandler(nodeItem)
+      __onContextHandler(nodeItem)
       return self
     }
 
@@ -501,6 +510,22 @@ var dragula = require('dragula');
         if (typeof this.clickfn === 'function') this.clickfn(this)
       })
     }
+
+    function __onContextHandler(nodeItem, contextfn) {
+      if (nodeItem.addEventListener) {
+          nodeItem.addEventListener('contextmenu', function (e) {
+            e.preventDefault()
+            self.options.context(this, e)
+            if (typeof this.contextfn === 'function') this.contextfn(this, e)
+          }, false)
+      } else {
+        nodeItem.attachEvent('oncontextmenu', function () {
+          self.options.context(this)
+          if (typeof this.contextfn === 'function') this.contextfn(this, e)
+          window.event.returnValue = false
+        })
+      }
+  }
 
     function __onButtonClickHandler (nodeItem, boardId) {
       nodeItem.addEventListener('click', function (e) {

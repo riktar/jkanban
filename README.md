@@ -52,6 +52,7 @@ var kanban = new jKanban({
         customHandler       : "<span class='item_handle'>+</span> %s"// your entirely customized handler. Use %s to position item title
     },
     click            : function (el) {},                             // callback when any board's item are clicked
+    context          : function (el, event) {},                      // callback when any board's item are right clicked
     dragEl           : function (el, source) {},                     // callback when any board's item are dragged
     dragendEl        : function (el) {},                             // callback when any board's item stop drag
     dropEl           : function (el, target, source, sibling) {},    // callback when any board's item drop in a board
