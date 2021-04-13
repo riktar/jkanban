@@ -4,3 +4,4 @@ node_modules
 #files to ignore
 *.iml
 /jkanban.dev.scss
+.DS_Store
