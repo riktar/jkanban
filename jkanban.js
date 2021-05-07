@@ -22,6 +22,7 @@ var dragula = require('dragula');
       'id',
       'title',
       'click',
+      'context',
       'drag',
       'dragend',
       'drop',
@@ -54,6 +55,7 @@ var dragula = require('dragula');
       dragendBoard: function (el) {},
       dropBoard: function (el, target, source, sibling) {},
       click: function (el) {},
+      context: function (el, e) {},
       buttonClick: function (el, boardId) {}
     }
 
@@ -202,14 +204,16 @@ var dragula = require('dragula');
           nodeItem.classList.add(cl)
         })
       }
-      nodeItem.innerHTML = __buildItemTitle(element.title)
+      nodeItem.innerHTML = __buildItemCard(element)
       //add function
       nodeItem.clickfn = element.click
+      nodeItem.contextfn = element.context;
       nodeItem.dragfn = element.drag
       nodeItem.dragendfn = element.dragend
       nodeItem.dropfn = element.drop
       __appendCustomProperties(nodeItem, element)
       __onclickHandler(nodeItem)
+      __onContextHandler(nodeItem)
       if (self.options.itemHandleOptions.enabled) {
         nodeItem.style.cursor = 'default'
       }
@@ -315,15 +319,17 @@ var dragula = require('dragula');
               nodeItem.classList.add(cl)
             })
           }
-          nodeItem.innerHTML = __buildItemTitle(itemKanban.title)
+          nodeItem.innerHTML = __buildItemCard(itemKanban)
           //add function
           nodeItem.clickfn = itemKanban.click
+          nodeItem.contextfn = itemKanban.context
           nodeItem.dragfn = itemKanban.drag
           nodeItem.dragendfn = itemKanban.dragend
           nodeItem.dropfn = itemKanban.drop
           __appendCustomProperties(nodeItem, itemKanban)
           //add click handler of item
           __onclickHandler(nodeItem)
+          __onContextHandler(nodeItem)
           if (self.options.itemHandleOptions.enabled) {
             nodeItem.style.cursor = 'default'
           }
@@ -387,13 +393,16 @@ var dragula = require('dragula');
       if (typeof nodeItem === 'string') {
         nodeItem = self.element.querySelector('[data-eid="' + el + '"]')
       }
-      nodeItem.innerHTML = element.title
+      nodeItem.innerHTML = __buildItemCard(element)
       // add function
       nodeItem.clickfn = element.click
+      nodeItem.contextfn = element.context
       nodeItem.dragfn = element.drag
       nodeItem.dragendfn = element.dragend
       nodeItem.dropfn = element.drop
       __appendCustomProperties(nodeItem, element)
+      __onclickHandler(nodeItem)
+      __onContextHandler(nodeItem)
       return self
     }
 
@@ -502,6 +511,22 @@ var dragula = require('dragula');
       })
     }
 
+    function __onContextHandler(nodeItem, contextfn) {
+      if (nodeItem.addEventListener) {
+          nodeItem.addEventListener('contextmenu', function (e) {
+            e.preventDefault()
+            self.options.context(this, e)
+            if (typeof this.contextfn === 'function') this.contextfn(this, e)
+          }, false)
+      } else {
+        nodeItem.attachEvent('oncontextmenu', function () {
+          self.options.context(this)
+          if (typeof this.contextfn === 'function') this.contextfn(this)
+          window.event.returnValue = false
+        })
+      }
+  }
+
     function __onButtonClickHandler (nodeItem, boardId) {
       nodeItem.addEventListener('click', function (e) {
         e.preventDefault()
@@ -561,6 +586,37 @@ var dragula = require('dragula');
       }
       return result
     }
+
+    function __buildItemCard(item) {
+      var result = 'title' in item ? item.title : '';
+
+      if (self.options.itemHandleOptions.enabled) {
+          if ((self.options.itemHandleOptions.customHandler || undefined) === undefined) {
+              var customCssHandler = self.options.itemHandleOptions.customCssHandler
+              var customCssIconHandler = self.options.itemHandleOptions.customCssIconHandler
+              var customItemLayout = self.options.itemHandleOptions.customItemLayout
+              if ((customCssHandler || undefined) === undefined) {
+                  customCssHandler = 'drag_handler';
+              }
+
+              if ((customCssIconHandler || undefined) === undefined) {
+                  customCssIconHandler = customCssHandler + '_icon';
+              }
+
+              if ((customItemLayout || undefined) === undefined) {
+                  customItemLayout = '';
+              }
+
+              result = '<div class=\'item_handle ' + customCssHandler + '\'><i class=\'item_handle ' + customCssIconHandler + '\'></i></div><div>' + result + '</div>'
+          } else {
+              result = '<div> ' + self.options.itemHandleOptions.customHandler.replace(/%([^%]+)%/g, (match, key) => 
+                      { return item[key] !== undefined ? item[key] : '' }) + ' </div>'
+              return result
+          }
+      }
+
+      return result
+  }
 
     //init plugin
     this.init()

@@ -49,9 +49,11 @@ var kanban = new jKanban({
         handleClass         : "item_handle",                         // css class for your custom item handle
         customCssHandler    : "drag_handler",                        // when customHandler is undefined, jKanban will use this property to set main handler class
         customCssIconHandler: "drag_handler_icon",                   // when customHandler is undefined, jKanban will use this property to set main icon handler class. If you want, you can use font icon libraries here
-        customHandler       : "<span class='item_handle'>+</span> %s"// your entirely customized handler. Use %s to position item title
+        customHandler       : "<span class='item_handle'>+</span> %title% "  // your entirely customized handler. Use %title% to position item title 
+                                                                             // any key's value included in item collection can be replaced with %key%
     },
     click            : function (el) {},                             // callback when any board's item are clicked
+    context          : function (el, event) {},                      // callback when any board's item are right clicked
     dragEl           : function (el, source) {},                     // callback when any board's item are dragged
     dragendEl        : function (el) {},                             // callback when any board's item stop drag
     dropEl           : function (el, target, source, sibling) {},    // callback when any board's item drop in a board

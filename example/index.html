@@ -74,6 +74,9 @@
         click: function(el) {
           console.log("Trigger on all items click!");
         },
+        context: function(el, e) {
+          console.log("Trigger on all items right-click!");
+        },
         dropEl: function(el, target, source, sibling){
           console.log(target.parentElement.getAttribute('data-id'));
           console.log(el, target, source, sibling)
@@ -130,6 +133,9 @@
                 title: "Try Click This!",
                 click: function(el) {
                   alert("click");
+                },
+                context: function(el, e){
+                  alert("right-click at (" + `${e.pageX}` + "," + `${e.pageX}` + ")")
                 },
                 class: ["peppe", "bello"]
               }
