@@ -8,9 +8,6 @@ Please try out the live [demo][1]!
 
 [1]: http://www.riccardotartaglia.it/jkanban/
 
-## GET SUPPORT / REQUIRE CUSTOM FEATURE
-[![jKanban](https://www.riccardotartaglia.it/blog/wp-content/uploads/2020/08/jKanban-banner.png)](https://xscode.com/riktar/jkanban)
-
 ## Install
 Clone the repo and use the javascript and the css files in the `dist` folder.
 
