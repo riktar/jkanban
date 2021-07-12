@@ -571,27 +571,6 @@ var dragula = require('dragula');
       }
     }
 
-    function __buildItemTitle (title) {
-      var result = title
-      if (self.options.itemHandleOptions.enabled) {
-        if ((self.options.itemHandleOptions.customHandler || undefined) === undefined) {
-          var customCssHandler = self.options.itemHandleOptions.customCssHandler
-          var customCssIconHandler = self.options.itemHandleOptions.customCssIconHandler
-          if ((customCssHandler || undefined) === undefined) {
-            customCssHandler = 'drag_handler'
-          }
-          if ((customCssIconHandler || undefined) === undefined) {
-            customCssIconHandler = customCssHandler + '_icon'
-          }
-
-          result = '<div class=\'item_handle ' + customCssHandler + '\'><i class=\'item_handle ' + customCssIconHandler + '\'></i></div><div>' + result + '</div>'
-        } else {
-          result = self.options.itemHandleOptions.customHandler.replace('%s', result)
-        }
-      }
-      return result
-    }
-
     function __buildItemCard(item) {
       var result = 'title' in item ? item.title : '';
 
