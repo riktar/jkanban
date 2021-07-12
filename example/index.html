@@ -58,6 +58,8 @@
     <br />
     <button id="addToDo">Add element in "To Do" Board</button>
     <br />
+    <button id="addToDoAtPosition">Add element in "To Do" Board at position 2</button>
+    <br />
     <button id="removeBoard">Remove "Done" Board</button>
     <br />
     <button id="removeElement">Remove "My Task Test"</button>
@@ -176,6 +178,13 @@
         KanbanTest.addElement("_todo", {
           title: "Test Add"
         });
+      });
+
+      var toDoButtonAtPosition = document.getElementById("addToDoAtPosition");
+      toDoButtonAtPosition.addEventListener("click", function() {
+        KanbanTest.addElement("_todo", {
+          title: "Test Add at Pos"
+        }, 1);
       });
 
       var addBoardDefault = document.getElementById("addDefault");
