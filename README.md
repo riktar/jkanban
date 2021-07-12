@@ -123,7 +123,7 @@ jKanban provides the easiest possible API to make your boards awesome!
 
 Method Name           | Arguments                        | Description
 ----------------------|----------------------------------|------------------------------------------------------------------------------------------------------------------------------
-`addElement`          | `boardID, element`               | Add `element` in the board with ID `boardID`, `element` is the standard format
+`addElement`          | `boardID, element, position`     | Add `element` in the board with ID `boardID`, `element` is the standard format. If `position` is set, inserts at position starting from 0
 `addForm`             | `boardID, formItem`              | Add `formItem` as html element into the board with ID `boardID`
 `addBoards`           | `boards`                         | Add one or more boards in the kanban, `boards` are in the standard format
 `findElement`         | `id`                             | Find board's item by `id`

@@ -190,10 +190,14 @@ var dragula = require('dragula');
       }
     }
 
-    this.addElement = function (boardID, element) {
+    this.addElement = function (boardID, element, position) {
+      if (typeof position === 'undefined') {
+        position = -1
+      }
       var board = self.element.querySelector(
         '[data-id="' + boardID + '"] .kanban-drag'
       )
+      var refElement = board.childNodes[position]
       var nodeItem = document.createElement('div')
       nodeItem.classList.add('kanban-item')
       if (typeof element.id !== 'undefined' && element.id !== '') {
@@ -217,7 +221,7 @@ var dragula = require('dragula');
       if (self.options.itemHandleOptions.enabled) {
         nodeItem.style.cursor = 'default'
       }
-      board.appendChild(nodeItem)
+      board.insertBefore(nodeItem, refElement)
       return self
     }
 
