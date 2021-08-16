@@ -55,8 +55,8 @@ var dragula = require('dragula');
       dragBoard: function (el, source) {},
       dragendBoard: function (el) {},
       dropBoard: function (el, target, source, sibling) {},
-      click: function (el) {},
-      context: function (el, e) {},
+      click: null,
+      context: null,
       buttonClick: function (el, boardId) {}
     }
 
@@ -509,6 +509,9 @@ var dragula = require('dragula');
     }
 
     function __onclickHandler (nodeItem, clickfn) {
+      if (typeof self.options.click !== 'function') {
+        return;
+      }
       nodeItem.addEventListener('click', function (e) {
         e.preventDefault()
         self.options.click(this)
@@ -517,6 +520,9 @@ var dragula = require('dragula');
     }
 
     function __onContextHandler(nodeItem, contextfn) {
+      if (typeof self.options.context !== 'function') {
+        return;
+      }
       if (nodeItem.addEventListener) {
           nodeItem.addEventListener('contextmenu', function (e) {
             e.preventDefault()
