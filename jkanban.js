@@ -55,7 +55,7 @@ var dragula = require('dragula');
       dragendBoard: function (el) {},
       dropBoard: function (el, target, source, sibling) {},
       click: null,
-      context: function (el, e) {},
+      context: null,
       buttonClick: function (el, boardId) {}
     }
 
@@ -519,6 +519,9 @@ var dragula = require('dragula');
     }
 
     function __onContextHandler(nodeItem, contextfn) {
+      if (typeof self.options.context !== 'function') {
+        return;
+      }
       if (nodeItem.addEventListener) {
           nodeItem.addEventListener('contextmenu', function (e) {
             e.preventDefault()
