@@ -54,7 +54,7 @@ var dragula = require('dragula');
       dragBoard: function (el, source) {},
       dragendBoard: function (el) {},
       dropBoard: function (el, target, source, sibling) {},
-      click: function (el) {},
+      click: null,
       context: function (el, e) {},
       buttonClick: function (el, boardId) {}
     }
@@ -508,6 +508,9 @@ var dragula = require('dragula');
     }
 
     function __onclickHandler (nodeItem, clickfn) {
+      if (typeof self.options.click !== 'function') {
+        return;
+      }
       nodeItem.addEventListener('click', function (e) {
         e.preventDefault()
         self.options.click(this)
