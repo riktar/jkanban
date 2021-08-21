@@ -57,6 +57,7 @@ var kanban = new jKanban({
     dragBoard        : function (el, source) {},                     // callback when any board stop drag
     dragendBoard     : function (el) {},                             // callback when any board stop drag
     buttonClick      : function(el, boardId) {}                      // callback when the board's button is clicked
+    propagationHandlers: [],                                         // the specified callback does not cancel the browser event. possible values: "click", "context"
 })
 ```
 

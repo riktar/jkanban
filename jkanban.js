@@ -56,7 +56,8 @@ var dragula = require('dragula');
       dropBoard: function (el, target, source, sibling) {},
       click: function (el) {},
       context: function (el, e) {},
-      buttonClick: function (el, boardId) {}
+      buttonClick: function (el, boardId) {},
+      propagationHandlers: [],
     }
 
     if (arguments[0] && typeof arguments[0] === 'object') {
@@ -509,7 +510,7 @@ var dragula = require('dragula');
 
     function __onclickHandler (nodeItem, clickfn) {
       nodeItem.addEventListener('click', function (e) {
-        e.preventDefault()
+        if (!self.options.propagationHandlers.includes('click')) e.preventDefault()
         self.options.click(this)
         if (typeof this.clickfn === 'function') this.clickfn(this)
       })
@@ -518,7 +519,7 @@ var dragula = require('dragula');
     function __onContextHandler(nodeItem, contextfn) {
       if (nodeItem.addEventListener) {
           nodeItem.addEventListener('contextmenu', function (e) {
-            e.preventDefault()
+            if (!self.options.propagationHandlers.includes('context')) e.preventDefault()
             self.options.context(this, e)
             if (typeof this.contextfn === 'function') this.contextfn(this, e)
           }, false)
@@ -526,7 +527,7 @@ var dragula = require('dragula');
         nodeItem.attachEvent('oncontextmenu', function () {
           self.options.context(this)
           if (typeof this.contextfn === 'function') this.contextfn(this)
-          window.event.returnValue = false
+          if (!self.options.propagationHandlers.includes('context')) window.event.returnValue = false
         })
       }
   }
