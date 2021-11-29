@@ -489,7 +489,7 @@ var dragula = require('dragula');
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }
         })
-          .then((response) => {
+          .then(function (response) {
             // log response text
             response.json().then(function (data) {
               self.options.boards = data
@@ -497,7 +497,7 @@ var dragula = require('dragula');
             })
 
           })
-          .catch((error) => {
+          .catch(function (error) {
             console.log('Error: ', error)
           })
       } else {
@@ -593,7 +593,7 @@ var dragula = require('dragula');
 
               result = '<div class=\'item_handle ' + customCssHandler + '\'><i class=\'item_handle ' + customCssIconHandler + '\'></i></div><div>' + result + '</div>'
           } else {
-              result = '<div> ' + self.options.itemHandleOptions.customHandler.replace(/%([^%]+)%/g, (match, key) => 
+              result = '<div> ' + self.options.itemHandleOptions.customHandler.replace(/%([^%]+)%/g, function (match, key) 
                       { return item[key] !== undefined ? item[key] : '' }) + ' </div>'
               return result
           }
